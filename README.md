@@ -44,7 +44,7 @@ So I made something that knows what's in my bag. If you don't own a fast lens, y
 
 ## Try it
 
-**Live version:** https://bitdaemon.github.io/stopdown/
+**Live version:** https://bitdaemon.github.io/StopDown/
 
 To put it on your phone:
 
@@ -82,7 +82,7 @@ Clone the repo and either:
 
 ### Host your own copy on GitHub Pages
 
-Fork the repo, then go to **Settings → Pages**, choose **Deploy from a branch**, then `main` and `/ (root)`. A minute later it's live at `https://<your-username>.github.io/stopdown/`.
+Fork the repo, then go to **Settings → Pages**, choose **Deploy from a branch**, then `main` and `/ (root)`. A minute later it's live at `https://<your-username>.github.io/StopDown/`.
 
 When you change anything, bump `VERSION` in `sw.js` (`stopdown-v1` → `stopdown-v2`) so installed copies pick up the update.
 
