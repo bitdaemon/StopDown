@@ -126,4 +126,4 @@ Current Safari (iOS/iPadOS/macOS 16.4 or later), Chrome, Edge and Firefox.
 ## Credits and licence
 
 - Icons: [Lucide](https://lucide.dev), ISC licence; see `icons/LUCIDE-LICENSE.txt`.
-- StopDown: © Richard Takacs. All rights reserved. No open-source licence has been chosen yet.
+- StopDown: © 2026 Richard Takacs, released under the [MIT License](LICENSE). You're free to use, copy, modify and share it, as long as the copyright notice and licence text stay with every copy.
