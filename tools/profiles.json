@@ -1,0 +1,18 @@
+{
+  "starter": {
+    "cropFactor": 1.5,
+    "lenses": [
+      {"name": "18-55mm f/3.5-5.6 kit", "minFocal": 18, "maxFocal": 55, "maxAperture": 3.5, "isMacro": false}
+    ],
+    "accessories": []
+  },
+  "enthusiast": {
+    "cropFactor": 1.5,
+    "lenses": [
+      {"name": "18-55mm f/3.5-5.6", "minFocal": 18, "maxFocal": 55, "maxAperture": 3.5, "isMacro": false},
+      {"name": "50mm f/1.8", "minFocal": 50, "maxFocal": 50, "maxAperture": 1.8, "isMacro": false},
+      {"name": "70-300mm f/4.5-5.6", "minFocal": 70, "maxFocal": 300, "maxAperture": 4.5, "isMacro": false}
+    ],
+    "accessories": ["tripod", "flash", "off-camera-flash", "reflector", "nd", "gels", "multi-exposure"]
+  }
+}
