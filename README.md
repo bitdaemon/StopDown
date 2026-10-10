@@ -44,7 +44,7 @@ So I made something that knows what's in my bag. If you don't own a fast lens, y
 
 ## Try it
 
-**Live version:** https://YOUR-USERNAME.github.io/stopdown/
+**Live version:** https://bitdaemon.github.io/stopdown/
 
 To put it on your phone:
 
@@ -139,6 +139,10 @@ tools/                  pool_report.py and test gear profiles
 tests/                  Node tests
 docs/screenshots/       the pictures in this README
 ```
+
+## A note on how this was built
+
+This is a vibe-coded project. I designed what it should do (the gear-aware rules, the card categories, how locking and accepting should work) and I tested it on my own camera and phone, but most of the code was written with an AI assistant. It’s tested (there’s a Node test suite and a script that checks the constraint library), but it hasn’t had a professional code review. If you spot something off, please open an issue
 
 ## Privacy
 
