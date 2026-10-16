@@ -65,15 +65,53 @@
   var FOCAL_STOPS = [10, 12, 14, 16, 18, 20, 24, 28, 35, 40, 50, 55, 70, 85,
     105, 135, 150, 200, 250, 300, 400, 500, 600];
 
+  var ACCESSORY_GROUPS = [
+    { id: "camera", label: "Camera" },
+    { id: "support", label: "Support" },
+    { id: "light", label: "Light" },
+    { id: "filters", label: "Filters" },
+    { id: "lens-addons", label: "Lens add-ons" },
+    { id: "props", label: "Props" }
+  ];
+
+  // Ids are stored in people's saved gear: add new ones freely, never rename old ones.
   var ACCESSORIES = [
-    { id: "tripod", label: "Tripod", detail: "Or any stable support" },
-    { id: "flash", label: "Flash / speedlight", detail: "On-camera or hot-shoe flash" },
-    { id: "off-camera-flash", label: "Off-camera flash", detail: "Cable, radio or optical trigger (e.g. Nikon CLS)" },
-    { id: "nd", label: "ND filter", detail: "For long exposures in daylight" },
-    { id: "polariser", label: "Polariser", detail: "Circular polarising filter" },
-    { id: "reflector", label: "Reflector", detail: "Or a sheet of white card" },
-    { id: "gels", label: "Flash gels", detail: "Colour gels such as CTO" },
-    { id: "multi-exposure", label: "In-camera multiple exposure", detail: "Your camera has a multiple-exposure mode" }
+    { id: "multi-exposure", group: "camera", label: "In-camera multiple exposure", detail: "Your camera has a multiple-exposure mode" },
+    { id: "remote", group: "camera", label: "Remote or intervalometer", detail: "Cable release, wireless remote or interval timer" },
+    { id: "phone-camera", group: "camera", label: "Phone as a second camera", detail: "For side-by-side and hard-to-reach shots" },
+    { id: "film-camera", group: "camera", label: "Film or instant camera", detail: "Any camera that shoots film or instant prints" },
+    { id: "tripod", group: "support", label: "Tripod", detail: "Or any stable support" },
+    { id: "monopod", group: "support", label: "Monopod", detail: "One leg: steadier than handheld, still mobile" },
+    { id: "clamp", group: "support", label: "Clamp, Gorillapod or beanbag", detail: "Small supports you can fix or rest anywhere" },
+    { id: "flash", group: "light", label: "Flash / speedlight", detail: "On-camera or hot-shoe flash" },
+    { id: "off-camera-flash", group: "light", label: "Off-camera flash", detail: "Cable, radio or optical trigger (e.g. Nikon CLS)" },
+    { id: "second-flash", group: "light", label: "Second flash", detail: "Two flashes you can fire together" },
+    { id: "led", group: "light", label: "LED or RGB light", detail: "Continuous panel, wand or video light" },
+    { id: "softbox", group: "light", label: "Softbox or umbrella", detail: "For your flash or LED" },
+    { id: "snoot", group: "light", label: "Snoot, grid or card flag", detail: "Anything that narrows or blocks light" },
+    { id: "reflector", group: "light", label: "Reflector", detail: "Or a sheet of white card" },
+    { id: "gels", group: "light", label: "Flash gels", detail: "Colour gels such as CTO" },
+    { id: "nd", group: "filters", label: "ND filter", detail: "For long exposures in daylight" },
+    { id: "polariser", group: "filters", label: "Polariser", detail: "Circular polarising filter" },
+    { id: "grad-nd", group: "filters", label: "Graduated ND", detail: "Darkens the sky, leaves the ground" },
+    { id: "diffusion", group: "filters", label: "Diffusion filter", detail: "Black Pro-Mist, Glimmerglass and the like" },
+    { id: "star", group: "filters", label: "Star filter", detail: "Turns point lights into stars" },
+    { id: "ir", group: "filters", label: "Infrared", detail: "IR filter (e.g. R72) or an IR-converted camera" },
+    { id: "extension-tubes", group: "lens-addons", label: "Extension tubes or close-up filter", detail: "Macro without a macro lens" },
+    { id: "teleconverter", group: "lens-addons", label: "Teleconverter", detail: "1.4× or longer" },
+    { id: "prism", group: "props", label: "Lensball, prism or mirror", detail: "Glass to shoot through or beside the lens" },
+    { id: "fairy-lights", group: "props", label: "Fairy lights", detail: "Battery string lights" },
+    { id: "spray", group: "props", label: "Spray bottle", detail: "For drops, mist and wet surfaces" },
+    { id: "cellophane", group: "props", label: "Coloured cellophane", detail: "Cheap colour for lights or the lens" },
+    { id: "backdrop", group: "props", label: "Plain backdrop", detail: "A sheet, a roll of paper or a painted board" }
+  ];
+
+  /** Lens types beyond prime/zoom. Each one is a lens property and a capability. */
+  var LENS_TRAITS = [
+    { key: "isMacro", cap: "macro", label: "Macro" },
+    { key: "isFisheye", cap: "fisheye", label: "Fisheye" },
+    { key: "isTilt", cap: "tilt-lens", label: "Tilt-shift or Lensbaby" },
+    { key: "isManual", cap: "manual-lens", label: "Manual focus lens" }
   ];
 
   var SENSORS = [
@@ -86,7 +124,7 @@
   var APERTURES = [0.95, 1.2, 1.4, 1.7, 1.8, 2, 2.8, 3.5, 4, 4.5, 5.6, 6.3];
 
   function newLens(fields) {
-    var lens = { id: uuid(), name: "", minFocal: 50, maxFocal: 50, maxAperture: 1.8, isMacro: false };
+    var lens = { id: uuid(), name: "", minFocal: 50, maxFocal: 50, maxAperture: 1.8, isMacro: false, isFisheye: false, isTilt: false, isManual: false };
     if (fields) Object.keys(fields).forEach(function (k) { lens[k] = fields[k]; });
     return lens;
   }
@@ -97,7 +135,8 @@
   function lensDisplayName(l) { var t = (l.name || "").trim(); return t || "Unnamed lens"; }
   function lensSummary(l) {
     var range = lensIsZoom(l) ? lensShortest(l) + "–" + lensLongest(l) + "mm" : lensShortest(l) + "mm";
-    return range + "  ·  f/" + formatAperture(l.maxAperture) + (l.isMacro ? "  ·  macro" : "");
+    var traits = LENS_TRAITS.filter(function (t) { return l[t.key]; }).map(function (t) { return t.label.toLowerCase(); });
+    return range + "  ·  f/" + formatAperture(l.maxAperture) + (traits.length ? "  ·  " + traits.join(", ") : "");
   }
 
   function defaultGear() {
@@ -119,7 +158,7 @@
           id: l.id || uuid(), name: String(l.name || ""),
           minFocal: toInt(l.minFocal, 50), maxFocal: toInt(l.maxFocal, toInt(l.minFocal, 50)),
           maxAperture: typeof l.maxAperture === "number" ? l.maxAperture : 3.5,
-          isMacro: !!l.isMacro
+          isMacro: !!l.isMacro, isFisheye: !!l.isFisheye, isTilt: !!l.isTilt, isManual: !!l.isManual
         });
       }) : d.lenses,
       accessories: Array.isArray(g.accessories) ? g.accessories.filter(function (a) { return known.indexOf(a) >= 0; }) : []
@@ -135,13 +174,15 @@
   function capabilities(gear) {
     var caps = {};
     gear.accessories.forEach(function (a) { caps[a] = true; });
-    if (caps["off-camera-flash"]) caps.flash = true;
+    if (caps["off-camera-flash"] || caps["second-flash"]) caps.flash = true;
+    if (caps["extension-tubes"]) caps.macro = true;
+    var reach = caps.teleconverter ? 1.4 : 1;
     gear.lenses.forEach(function (l) {
       if (lensIsZoom(l)) caps.zoom = true; else caps.prime = true;
       if (lensShortest(l) * gear.cropFactor <= 28) caps.wide = true;
-      if (lensLongest(l) * gear.cropFactor >= 100) caps.tele = true;
+      if (lensLongest(l) * reach * gear.cropFactor >= 100) caps.tele = true;
       if (l.maxAperture <= 2.0) caps["fast-lens"] = true;
-      if (l.isMacro) caps.macro = true;
+      LENS_TRAITS.forEach(function (t) { if (l[t.key]) caps[t.cap] = true; });
     });
     return caps;
   }
@@ -164,12 +205,15 @@
   var RE_RANGE_NO_UNIT = /(?<![\d.,/:])(\d{1,4})\s*[-–—~]\s*(\d{1,4})(?![\d.,])/;
   var RE_APERTURE = /(?:\bf\s*\/?\s*|\b1\s*:\s*)(\d{1,2}(?:[.,]\d{1,2})?)/i;
   var RE_MACRO = /\b(?:macro|micro)\b/i;
+  var RE_FISHEYE = /fish-?\s?eye/i;
+  var RE_TILT = /\b(?:tilt|shift|PC-?E|TS-?E|lensbaby)\b/i;
+  var RE_MANUAL = /\b(?:MF|manual|Ai-?S?|M42|Helios|Jupiter|Takumar|Zenitar)\b/i;
 
   function num(s) { return parseFloat(String(s).replace(",", ".")); }
 
   /** Reads focal length, widest aperture and macro from a lens description. */
   function parseLensName(text) {
-    var r = { minFocal: null, maxFocal: null, maxAperture: null, isMacro: false };
+    var r = { minFocal: null, maxFocal: null, maxAperture: null, isMacro: false, isFisheye: false, isTilt: false, isManual: false };
     var m;
     function setFocal(a, b) {
       var lo = Math.round(Math.min(a, b)), hi = Math.round(Math.max(a, b));
@@ -183,12 +227,15 @@
       if (a >= 0.7 && a <= 32) r.maxAperture = a;
     }
     r.isMacro = RE_MACRO.test(text);
+    r.isFisheye = RE_FISHEYE.test(text);
+    r.isTilt = RE_TILT.test(text);
+    r.isManual = RE_MANUAL.test(text);
     r.hasFocal = r.minFocal !== null;
-    r.foundAnything = r.hasFocal || r.maxAperture !== null || r.isMacro;
+    r.foundAnything = r.hasFocal || r.maxAperture !== null || r.isMacro || r.isFisheye || r.isTilt || r.isManual;
     var parts = [];
     if (r.hasFocal) parts.push(r.minFocal === r.maxFocal ? r.minFocal + "mm prime" : r.minFocal + "–" + r.maxFocal + "mm zoom");
     if (r.maxAperture !== null) parts.push("f/" + formatAperture(r.maxAperture));
-    if (r.isMacro) parts.push("macro");
+    LENS_TRAITS.forEach(function (t) { if (r[t.key]) parts.push(t.label.toLowerCase()); });
     r.summary = parts.join(" · ");
     return r;
   }
@@ -556,7 +603,7 @@
   var api = {
     uuid: uuid, formatAperture: formatAperture, slotsOf: slotsOf, resolveText: resolveText,
     prepareLibrary: prepareLibrary,
-    FOCAL_STOPS: FOCAL_STOPS, ACCESSORIES: ACCESSORIES, SENSORS: SENSORS, APERTURES: APERTURES,
+    FOCAL_STOPS: FOCAL_STOPS, ACCESSORIES: ACCESSORIES, ACCESSORY_GROUPS: ACCESSORY_GROUPS, LENS_TRAITS: LENS_TRAITS, SENSORS: SENSORS, APERTURES: APERTURES,
     newLens: newLens, lensShortest: lensShortest, lensLongest: lensLongest, lensIsZoom: lensIsZoom,
     lensDisplayName: lensDisplayName, lensSummary: lensSummary,
     defaultGear: defaultGear, normalizeGear: normalizeGear, capabilities: capabilities, focalOptions: focalOptions,

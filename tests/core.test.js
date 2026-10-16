@@ -22,6 +22,19 @@ const enthusiast = () => Core.normalizeGear({
   accessories: ["tripod", "flash", "off-camera-flash", "reflector", "nd", "gels", "multi-exposure"]
 });
 
+const everything = () => Core.normalizeGear({
+  cropFactor: 1.5,
+  lenses: [
+    { name: "18-55mm", minFocal: 18, maxFocal: 55, maxAperture: 3.5 },
+    { name: "35mm f/1.8", minFocal: 35, maxFocal: 35, maxAperture: 1.8 },
+    { name: "70-300mm", minFocal: 70, maxFocal: 300, maxAperture: 4.5 },
+    { name: "10.5mm fisheye", minFocal: 10, maxFocal: 10, maxAperture: 2.8, isFisheye: true },
+    { name: "Lensbaby 50mm", minFocal: 50, maxFocal: 50, maxAperture: 2.5, isTilt: true },
+    { name: "Helios 58mm", minFocal: 58, maxFocal: 58, maxAperture: 2, isManual: true }
+  ],
+  accessories: Core.ACCESSORIES.map(a => a.id)
+});
+
 function assertValidDeal(lib, gen, cards) {
   const defs = cards.map(c => lib.byId[c.constraintID]);
   for (let i = 0; i < defs.length; i++) {
@@ -33,7 +46,7 @@ function assertValidDeal(lib, gen, cards) {
 
 test("library loads and every constraint references a known axis", () => {
   const lib = loadLibrary();
-  assert.equal(lib.constraints.length, 247);
+  assert.equal(lib.constraints.length, 317);
   assert.equal(lib.axes.length, 16);
   lib.constraints.forEach(c => assert.ok(lib.axisById[c.axis], c.id));
 });
@@ -178,7 +191,7 @@ const OPPOSITES = `
   fixed-shutter/slow-shutter fixed-shutter/fast-shutter fixed-shutter/fixed-aperture
   fixed-shutter/varied-shutter fixed-shutter/motion-blur fixed-shutter/aperture-priority
   light-painting/fixed-light multi-frame/single-take multi-frame/three-only many-frames/few-frames
-  multi-frame/slow-pace large-subject/hand-size hand-size/hyperfocal steep-angle/vertical-lines
+  multi-frame/slow-pace large-subject/hand-size hand-size/hyperfocal reflection/no-reflection fixed-framing/zoom-action manual-focus/autofocus bent-lines/level-lines infrared/colour-dependent steep-angle/vertical-lines
   varies-exposure/fixed-shutter aperture-priority/fixed-shutter worst-frame/single-winner`.trim().split(/\s+/).map(p => p.split("/"));
 
 test("every opposite tag pair is used by the library and can never meet in a hand", () => {
@@ -214,7 +227,7 @@ test("cards limited to different times or places are never compatible", () => {
 test("thousands of random 10-card hands contain no contradictions", () => {
   const lib = loadLibrary();
   const contexts = [["anytime", "anywhere"], ["day", "outdoor"], ["night", "outdoor"], ["golden", "indoor"]];
-  for (const gear of [starter(), enthusiast()]) {
+  for (const gear of [starter(), enthusiast(), everything()]) {
     for (const difficulty of ["relaxed", "balanced", "tough"]) {
       for (const [time, place] of contexts) {
         const settings = Object.assign(Core.defaultSettings(), { cardCount: 10, difficulty, time, place });
@@ -227,4 +240,44 @@ test("thousands of random 10-card hands contain no contradictions", () => {
       }
     }
   }
+});
+
+// ---- Gear groups and new gear ----------------------------------------------------
+test("every accessory sits in a known group and unlocks at least two cards", () => {
+  const lib = loadLibrary();
+  const groups = Core.ACCESSORY_GROUPS.map(g => g.id);
+  const ids = Core.ACCESSORIES.map(a => a.id);
+  assert.equal(new Set(ids).size, ids.length, "unique accessory ids");
+  for (const a of Core.ACCESSORIES) {
+    assert.ok(groups.includes(a.group), a.id + " group");
+    const derived = { "extension-tubes": "macro" }[a.id]; // tubes unlock every macro card too
+    const unlocked = lib.constraints.filter(c => c.requires.includes(a.id) || c.requires.includes(derived)).length;
+    assert.ok(unlocked >= 2, `${a.id} unlocks ${unlocked} cards`);
+  }
+  for (const t of Core.LENS_TRAITS) {
+    assert.ok(lib.constraints.filter(c => c.requires.includes(t.cap)).length >= 2, t.cap);
+  }
+  // Every requirement in the library is something the gear screen can provide.
+  const caps = Core.capabilities(everything());
+  lib.constraints.forEach(c => c.requires.forEach(r => assert.ok(caps[r], `${c.id} requires ${r}`)));
+});
+
+test("derived capabilities: tubes give macro, a teleconverter extends reach, a second flash is a flash", () => {
+  const g = Core.normalizeGear({ cropFactor: 1.5, lenses: [{ name: "18-55", minFocal: 18, maxFocal: 55, maxAperture: 3.5 }], accessories: ["extension-tubes", "second-flash"] });
+  const caps = Core.capabilities(g);
+  assert.ok(caps.macro && caps.flash && !caps.tele);
+  g.accessories.push("teleconverter");
+  assert.ok(Core.capabilities(g).tele, "55mm × 1.4 × 1.5 crop counts as tele");
+});
+
+test("lens character is read from the description and survives old saved gear", () => {
+  assert.equal(Core.parseLensName("Nikon AF DX Fisheye-Nikkor 10.5mm f/2.8G").isFisheye, true);
+  assert.equal(Core.parseLensName("Lensbaby Composer Pro II 50mm").isTilt, true);
+  assert.equal(Core.parseLensName("Nikon PC-E 24mm f/3.5").isTilt, true);
+  assert.equal(Core.parseLensName("Nikkor 50mm f/1.4 AI-S").isManual, true);
+  assert.equal(Core.parseLensName("AF-S NIKKOR 35mm 1:1.8G").isManual, false);
+  const old = Core.normalizeGear({ lenses: [{ name: "50mm", minFocal: 50, maxFocal: 50, maxAperture: 1.8, isMacro: true }], accessories: ["tripod", "bogus"] });
+  assert.deepEqual(old.accessories, ["tripod"]);
+  assert.equal(old.lenses[0].isFisheye, false);
+  assert.ok(Core.capabilities(old).macro);
 });

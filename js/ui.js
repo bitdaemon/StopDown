@@ -350,12 +350,16 @@
     });
     html += '<button class="row" data-action="lens-add" data-key="lens-add">' + icon("plus", "lead") + '<span class="grow" style="color:var(--accent-strong)">Add lens</span></button></div></section>';
 
-    html += '<section class="section"><h2>Accessories & camera features</h2><div class="group">';
-    Core.ACCESSORIES.forEach(function (a) {
-      var on = g.accessories.indexOf(a.id) >= 0;
-      html += '<label class="row"><span class="grow">' + esc(a.label) + '<span class="sub">' + esc(a.detail) + '</span></span><span class="switch"><input type="checkbox" role="switch" data-field="accessory" data-id="' + a.id + '"' + (on ? " checked" : "") + ' data-key="acc-' + a.id + '"><span></span></span></label>';
+    Core.ACCESSORY_GROUPS.forEach(function (grp) {
+      var items = Core.ACCESSORIES.filter(function (a) { return a.group === grp.id; });
+      var count = items.filter(function (a) { return g.accessories.indexOf(a.id) >= 0; }).length;
+      html += '<section class="section"><h2>' + esc(grp.label) + (count ? ' <span class="h-count">' + count + "</span>" : "") + '</h2><div class="group">';
+      items.forEach(function (a) {
+        var on = g.accessories.indexOf(a.id) >= 0;
+        html += '<label class="row"><span class="grow">' + esc(a.label) + '<span class="sub">' + esc(a.detail) + '</span></span><span class="switch"><input type="checkbox" role="switch" data-field="accessory" data-id="' + a.id + '"' + (on ? " checked" : "") + ' data-key="acc-' + a.id + '"><span></span></span></label>';
+      });
+      html += "</div></section>";
     });
-    html += "</div></section>";
 
     var caps = Object.keys(Core.capabilities(g)).sort();
     var focals = Core.focalOptions(g);
@@ -406,7 +410,7 @@
       '<div class="row"><input class="full" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="e.g. AF-S Nikkor 18-55mm f/3.5-5.6G" value="' + esc(lens.name) +
       '" data-field="lens-name" data-id="' + esc(lens.id) + '" data-key="lens-name" aria-label="Lens description"></div>' +
       '<div id="lens-detected">' + this.detectedHTML(lens) + "</div></div>" +
-      '<p class="foot">Type the name as printed on the lens. Focal length, widest aperture and macro are read from it, and you can adjust them below.</p></section>';
+      '<p class="foot">Type the name as printed on the lens. Focal length, widest aperture and lens type are read from it, and you can adjust them below.</p></section>';
 
     html += '<section class="section"><h2>Type</h2><div class="group"><div class="row"><div class="segmented" role="group" aria-label="Lens type">' +
       '<button data-action="lens-kind" data-id="' + esc(lens.id) + '" data-kind="prime" aria-pressed="' + (kind === "prime") + '" data-key="kind-prime">Prime</button>' +
@@ -426,8 +430,14 @@
       '<label class="row"><span class="grow">Widest aperture</span><select data-field="lens-aperture" data-id="' + esc(lens.id) + '" data-key="lens-aperture">' +
       apertures.map(function (a) { return '<option value="' + a + '"' + (a === lens.maxAperture ? " selected" : "") + ">f/" + Core.formatAperture(a) + "</option>"; }).join("") +
       "</select>" + icon("chevron-right", "chev") + "</label>" +
-      '<label class="row"><span class="grow">Macro</span><span class="switch"><input type="checkbox" role="switch" data-field="lens-macro" data-id="' + esc(lens.id) + '"' + (lens.isMacro ? " checked" : "") + ' data-key="lens-macro"><span></span></span></label>' +
       '</div><p class="foot">For a variable-aperture zoom, use the widest value (f/3.5 on an 18–55mm f/3.5–5.6).</p></section>';
+
+    html += '<section class="section"><h2>Lens character</h2><div class="group">' +
+      Core.LENS_TRAITS.map(function (t) {
+        return '<label class="row"><span class="grow">' + esc(t.label) + '</span><span class="switch"><input type="checkbox" role="switch" data-field="lens-trait" data-trait="' + t.key +
+          '" data-id="' + esc(lens.id) + '"' + (lens[t.key] ? " checked" : "") + ' data-key="lens-' + t.key + '"><span></span></span></label>';
+      }).join("") +
+      '</div><p class="foot">Each one unlocks its own challenges. They\'re also read from the description, e.g. "fisheye", "Lensbaby" or "MF".</p></section>';
 
     html += '<section class="section"><div class="group"><button class="row" data-action="lens-delete" data-id="' + esc(lens.id) + '" data-key="lens-delete" style="color:var(--danger)">' +
       icon("trash-2") + '<span class="grow">Delete this lens</span></button></div></section>';
@@ -441,7 +451,7 @@
     var changed = false;
     if (d.hasFocal) { lens.minFocal = d.minFocal; lens.maxFocal = d.maxFocal; delete this.lensKindOverride[lens.id]; changed = true; }
     if (d.maxAperture !== null) { lens.maxAperture = d.maxAperture; changed = true; }
-    if (d.isMacro) { lens.isMacro = true; changed = true; }
+    Core.LENS_TRAITS.forEach(function (t) { if (d[t.key]) { lens[t.key] = true; changed = true; } });
     if (force) this.lensManual[lens.id] = false;
     return changed;
   };
@@ -563,9 +573,9 @@
         if (la) { this.lensManual[la.id] = true; s.updateGear(function () { la.maxAperture = parseFloat(el.value); }); }
         break;
       }
-      case "lens-macro": {
-        var lm = this.findLens(id);
-        if (lm) s.updateGear(function () { lm.isMacro = el.checked; });
+      case "lens-trait": {
+        var lt = this.findLens(id), key = el.getAttribute("data-trait");
+        if (lt) s.updateGear(function () { lt[key] = el.checked; });
         break;
       }
       case "import": this.importBackup(el); break;
@@ -588,7 +598,7 @@
     var min = this.root.querySelector('[data-field="lens-min"]');
     var max = this.root.querySelector('[data-field="lens-max"]');
     var ap = this.root.querySelector('[data-field="lens-aperture"]');
-    var mac = this.root.querySelector('[data-field="lens-macro"]');
+    var traits = this.root.querySelectorAll('[data-field="lens-trait"]');
     var kindChanged = (this.lensKind(lens) === "zoom") !== !!max;
     if (kindChanged) {
       // Prime/zoom flipped: rebuild, keeping the cursor in the description field.
@@ -600,7 +610,7 @@
     }
     if (min) min.value = lens.minFocal;
     if (max) max.value = lens.maxFocal;
-    if (mac) mac.checked = lens.isMacro;
+    [].forEach.call(traits, function (t) { t.checked = !!lens[t.getAttribute("data-trait")]; });
     if (ap && String(lens.maxAperture) !== ap.value) {
       if (![].some.call(ap.options, function (o) { return o.value === String(lens.maxAperture); })) {
         var opt = document.createElement("option");

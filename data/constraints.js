@@ -328,7 +328,7 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "id": "lens.macro",
       "axis": "lens",
       "difficulty": 2,
-      "text": "Macro lens only, and nothing you shoot may be bigger than your hand.",
+      "text": "Macro only (a macro lens, tubes or a close-up filter), and nothing you shoot may be bigger than your hand.",
       "why": "Magnification turns ordinary surfaces into landscapes and demands careful focus and stillness.",
       "tags": [
         "close-up",
@@ -402,6 +402,9 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "why": "Switching extremes trains you to predict what each end of the lens will show before you raise the camera.",
       "requires": [
         "zoom"
+      ],
+      "tags": [
+        "zoom-action"
       ]
     },
     {
@@ -836,7 +839,13 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "axis": "focus",
       "difficulty": 1,
       "text": "Use only the centre AF point, then recompose.",
-      "why": "Focus-and-recompose separates focusing from composing, which is a core habit."
+      "why": "Focus-and-recompose separates focusing from composing, which is a core habit.",
+      "excludes": [
+        "manual-focus"
+      ],
+      "tags": [
+        "autofocus"
+      ]
     },
     {
       "id": "fo.rack",
@@ -1647,7 +1656,8 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       ],
       "excludes": [
         "tilted",
-        "steep-angle"
+        "steep-angle",
+        "bent-lines"
       ]
     },
     {
@@ -1746,7 +1756,8 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
         "centered"
       ],
       "excludes": [
-        "off-center"
+        "off-center",
+        "bent-lines"
       ]
     },
     {
@@ -3045,7 +3056,8 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
         "level-lines"
       ],
       "excludes": [
-        "tilted"
+        "tilted",
+        "bent-lines"
       ]
     },
     {
@@ -3555,6 +3567,1352 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
         "hue-subject",
         "hue-grade",
         "hue-cast"
+      ]
+    },
+    {
+      "id": "li.timelapse",
+      "axis": "limits",
+      "difficulty": 3,
+      "text": "Shoot a time-lapse: at least 50 frames at a fixed interval, all from one spot.",
+      "why": "A time-lapse shows change you can't see in real time: clouds, shadows, crowds, tides.",
+      "tags": [
+        "on-tripod",
+        "multi-frame",
+        "many-frames",
+        "one-spot",
+        "fixed-framing"
+      ],
+      "excludes": [
+        "handheld",
+        "moving-feet",
+        "few-frames",
+        "single-take",
+        "slow-pace",
+        "zoom-action"
+      ],
+      "requires": [
+        "remote",
+        "tripod"
+      ]
+    },
+    {
+      "id": "ss.bulb",
+      "axis": "shutter",
+      "difficulty": 2,
+      "text": "Bulb mode with the remote: hold the shutter open for 30 seconds or longer.",
+      "why": "Past 30 seconds the camera stops counting for you. You decide when the picture is finished.",
+      "tags": [
+        "slow-shutter",
+        "long-exposure",
+        "on-tripod"
+      ],
+      "excludes": [
+        "fast-shutter",
+        "freeze",
+        "handheld",
+        "fixed-shutter"
+      ],
+      "requires": [
+        "remote",
+        "tripod"
+      ],
+      "time": [
+        "golden",
+        "night"
+      ]
+    },
+    {
+      "id": "ss.star-trails",
+      "axis": "shutter",
+      "difficulty": 3,
+      "text": "Star trails: shoot frames back to back for at least 20 minutes and stack them.",
+      "why": "The earth's rotation drawn across the sky. Patience and planning make the whole picture.",
+      "tags": [
+        "slow-shutter",
+        "long-exposure",
+        "on-tripod",
+        "multi-frame",
+        "many-frames",
+        "one-spot",
+        "fixed-framing"
+      ],
+      "excludes": [
+        "fast-shutter",
+        "freeze",
+        "handheld",
+        "fixed-shutter",
+        "few-frames",
+        "single-take",
+        "moving-feet",
+        "slow-pace",
+        "zoom-action"
+      ],
+      "requires": [
+        "remote",
+        "tripod"
+      ],
+      "time": [
+        "night"
+      ],
+      "place": [
+        "outdoor"
+      ]
+    },
+    {
+      "id": "cn.remote-self",
+      "axis": "concept",
+      "difficulty": 2,
+      "text": "A self-portrait with the remote, camera at least 5 metres away.",
+      "why": "At a distance you become part of a place, not a face in front of it.",
+      "tags": [
+        "people",
+        "distance"
+      ],
+      "excludes": [
+        "no-people",
+        "close-up"
+      ],
+      "requires": [
+        "remote"
+      ]
+    },
+    {
+      "id": "vp.remote-hide",
+      "axis": "viewpoint",
+      "difficulty": 2,
+      "text": "Hide the camera where you can't stand, under a bench or on a shelf, and fire it with the remote.",
+      "why": "The camera sees from places you never could, and people forget it's there.",
+      "tags": [
+        "no-viewfinder",
+        "one-spot"
+      ],
+      "excludes": [
+        "moving-feet"
+      ],
+      "requires": [
+        "remote"
+      ]
+    },
+    {
+      "id": "cn.phone-vs",
+      "axis": "concept",
+      "difficulty": 1,
+      "text": "The same scene twice, once on your phone and once on the camera. Decide which is better, and why.",
+      "why": "Knowing what each camera is good at makes you choose on purpose, not by habit.",
+      "tags": [
+        "phone",
+        "multi-frame"
+      ],
+      "excludes": [
+        "no-phone"
+      ],
+      "requires": [
+        "phone-camera"
+      ]
+    },
+    {
+      "id": "vp.phone-reach",
+      "axis": "viewpoint",
+      "difficulty": 1,
+      "text": "Use your phone for the angles the camera can't reach: in a gutter, through a gap, at arm's length overhead.",
+      "why": "A small camera fits where a big one can't. Use it to find the angle first.",
+      "tags": [
+        "phone"
+      ],
+      "excludes": [
+        "no-phone"
+      ],
+      "requires": [
+        "phone-camera"
+      ]
+    },
+    {
+      "id": "ou.phone-edit",
+      "axis": "output",
+      "difficulty": 1,
+      "text": "Edit your best camera frame on your phone in under five minutes.",
+      "why": "A time limit and a small screen force you to make the edit that matters and stop.",
+      "tags": [
+        "phone"
+      ],
+      "excludes": [
+        "no-phone"
+      ],
+      "requires": [
+        "phone-camera"
+      ]
+    },
+    {
+      "id": "li.phone-scout",
+      "axis": "limits",
+      "difficulty": 1,
+      "text": "Scout with your phone first: five quick phone snaps, then make one real photo with the camera.",
+      "why": "Sketching before painting. The phone frames are notes, not pictures.",
+      "tags": [
+        "phone",
+        "multi-frame"
+      ],
+      "excludes": [
+        "no-phone",
+        "single-take"
+      ],
+      "requires": [
+        "phone-camera"
+      ]
+    },
+    {
+      "id": "cn.film-twin",
+      "axis": "concept",
+      "difficulty": 1,
+      "text": "Shoot your best subject on film and digital. Look at both again when the film comes back.",
+      "why": "The wait changes how you see a picture. Compare them when you've forgotten the moment.",
+      "tags": [
+        "multi-frame"
+      ],
+      "excludes": [
+        "single-take"
+      ],
+      "requires": [
+        "film-camera"
+      ]
+    },
+    {
+      "id": "li.film-five",
+      "axis": "limits",
+      "difficulty": 2,
+      "text": "Five frames on the film camera, everything else digital. Make the film frames count.",
+      "why": "Scarcity sharpens judgement. You'll look longer before each of those five.",
+      "tags": [],
+      "excludes": [],
+      "requires": [
+        "film-camera"
+      ]
+    },
+    {
+      "id": "ou.instant-gift",
+      "axis": "output",
+      "difficulty": 2,
+      "text": "Make one instant or film print and give it to someone in the photo.",
+      "why": "A photo that leaves your hands and lives on someone else's fridge.",
+      "tags": [
+        "people"
+      ],
+      "excludes": [
+        "no-people"
+      ],
+      "requires": [
+        "film-camera"
+      ]
+    },
+    {
+      "id": "cn.film-wait",
+      "axis": "concept",
+      "difficulty": 2,
+      "text": "Shoot film today and don't look at today's digital files until the film is developed.",
+      "why": "Delayed review cools the excitement and shows you which pictures really work.",
+      "tags": [],
+      "excludes": [],
+      "requires": [
+        "film-camera"
+      ]
+    },
+    {
+      "id": "ss.monopod-slow",
+      "axis": "shutter",
+      "difficulty": 2,
+      "text": "Monopod at 1/8s or slower, with no camera shake.",
+      "why": "A monopod buys about two stops. Find out exactly how slow you can go.",
+      "tags": [
+        "slow-shutter",
+        "sharp-all"
+      ],
+      "excludes": [
+        "fast-shutter",
+        "motion-blur",
+        "handheld",
+        "on-tripod"
+      ],
+      "requires": [
+        "monopod"
+      ]
+    },
+    {
+      "id": "vp.pole-cam",
+      "axis": "viewpoint",
+      "difficulty": 2,
+      "text": "Raise the monopod above your head as a pole camera and fire with the timer or remote.",
+      "why": "Two metres higher than everyone else is a view nobody else has.",
+      "tags": [
+        "high-angle",
+        "no-viewfinder"
+      ],
+      "excludes": [
+        "low-angle"
+      ],
+      "requires": [
+        "monopod"
+      ]
+    },
+    {
+      "id": "ss.monopod-pan",
+      "axis": "shutter",
+      "difficulty": 2,
+      "text": "Pan on the monopod at 1/15s: rotate smoothly with a moving subject.",
+      "why": "The monopod keeps the pan level so only the background streaks.",
+      "tags": [
+        "slow-shutter",
+        "motion-blur"
+      ],
+      "excludes": [
+        "fast-shutter",
+        "freeze",
+        "fixed-shutter"
+      ],
+      "requires": [
+        "monopod"
+      ]
+    },
+    {
+      "id": "vp.clamp-odd",
+      "axis": "viewpoint",
+      "difficulty": 2,
+      "text": "Fix the camera to something unusual, like a railing, a branch or a bicycle, and shoot from there.",
+      "why": "Odd mounting points give viewpoints a tripod never would.",
+      "tags": [
+        "one-spot"
+      ],
+      "excludes": [
+        "moving-feet"
+      ],
+      "requires": [
+        "clamp"
+      ]
+    },
+    {
+      "id": "ss.rest-long",
+      "axis": "shutter",
+      "difficulty": 2,
+      "text": "Long exposure without a tripod: rest the camera on a wall, a bag or a bench for 2 seconds or more.",
+      "why": "The world is full of tripods if you look for flat, still surfaces.",
+      "tags": [
+        "slow-shutter",
+        "long-exposure",
+        "on-tripod"
+      ],
+      "excludes": [
+        "fast-shutter",
+        "freeze",
+        "handheld",
+        "fixed-shutter"
+      ],
+      "requires": [
+        "clamp"
+      ],
+      "time": [
+        "golden",
+        "night"
+      ]
+    },
+    {
+      "id": "fl.key-rim",
+      "axis": "flash",
+      "difficulty": 3,
+      "text": "Two flashes: one as the key light, one behind your subject as a rim.",
+      "why": "Rim light separates a subject from a dark background like nothing else.",
+      "tags": [
+        "flash",
+        "backlight"
+      ],
+      "excludes": [
+        "natural-only",
+        "single-source"
+      ],
+      "requires": [
+        "second-flash",
+        "off-camera-flash"
+      ]
+    },
+    {
+      "id": "fl.bg-only",
+      "axis": "flash",
+      "difficulty": 3,
+      "text": "One flash lights only the background. Light your subject with the other, or leave it in silhouette.",
+      "why": "Lighting the background separately gives you control over tone and separation.",
+      "tags": [
+        "flash"
+      ],
+      "excludes": [
+        "natural-only",
+        "single-source"
+      ],
+      "requires": [
+        "second-flash",
+        "off-camera-flash"
+      ]
+    },
+    {
+      "id": "fl.cross",
+      "axis": "flash",
+      "difficulty": 3,
+      "text": "Cross-light with two flashes from opposite sides.",
+      "why": "Two hard lights carve texture and shape out of anything.",
+      "tags": [
+        "flash",
+        "sidelight",
+        "hard-light"
+      ],
+      "excludes": [
+        "natural-only",
+        "single-source",
+        "frontlight",
+        "soft-light"
+      ],
+      "requires": [
+        "second-flash",
+        "off-camera-flash"
+      ]
+    },
+    {
+      "id": "so.led-only",
+      "axis": "source",
+      "difficulty": 1,
+      "text": "Your LED light is the only light.",
+      "why": "Continuous light shows you exactly what you'll get before you press the shutter.",
+      "tags": [
+        "artificial-only",
+        "single-source"
+      ],
+      "excludes": [
+        "natural-only",
+        "sun",
+        "flash",
+        "window-light",
+        "mixed-light"
+      ],
+      "requires": [
+        "led"
+      ]
+    },
+    {
+      "id": "so.rgb-two",
+      "axis": "source",
+      "difficulty": 2,
+      "text": "Two colours from two sides: your RGB light on one side, a contrasting colour on the other.",
+      "why": "Colour contrast in the light itself gives a scene shape and mood at once.",
+      "tags": [
+        "artificial-only",
+        "colour-dependent",
+        "coloured-light",
+        "saturated",
+        "mixed-light",
+        "hue-cast"
+      ],
+      "excludes": [
+        "natural-only",
+        "sun",
+        "flash",
+        "bw",
+        "monotone",
+        "tonal-only"
+      ],
+      "requires": [
+        "led"
+      ]
+    },
+    {
+      "id": "di.led-below",
+      "axis": "direction",
+      "difficulty": 1,
+      "text": "Put the LED below your subject and light it from underneath.",
+      "why": "Light from below is strange because nature never does it. Use the strangeness.",
+      "tags": [
+        "underlight"
+      ],
+      "excludes": [],
+      "requires": [
+        "led"
+      ]
+    },
+    {
+      "id": "ss.led-wand",
+      "axis": "shutter",
+      "difficulty": 2,
+      "text": "Light painting with your LED: draw a shape around your subject during the exposure.",
+      "why": "The light becomes a pen. The picture only exists inside the exposure.",
+      "tags": [
+        "slow-shutter",
+        "long-exposure",
+        "on-tripod",
+        "light-painting"
+      ],
+      "excludes": [
+        "fast-shutter",
+        "freeze",
+        "handheld",
+        "fixed-shutter",
+        "fixed-light"
+      ],
+      "requires": [
+        "led",
+        "tripod"
+      ],
+      "time": [
+        "night"
+      ]
+    },
+    {
+      "id": "di.led-side",
+      "axis": "direction",
+      "difficulty": 1,
+      "text": "Cross-light a still life: the LED from one side, low and close.",
+      "why": "Raking light reveals texture you can't see in flat light.",
+      "tags": [
+        "sidelight",
+        "hard-light"
+      ],
+      "excludes": [
+        "frontlight",
+        "soft-light"
+      ],
+      "requires": [
+        "led"
+      ]
+    },
+    {
+      "id": "so.softbox",
+      "axis": "source",
+      "difficulty": 1,
+      "text": "Softbox or umbrella as your only key light, 45 degrees to the side.",
+      "why": "The classic portrait light. Learn it so you know what you're breaking later.",
+      "tags": [
+        "soft-light",
+        "single-source"
+      ],
+      "excludes": [
+        "hard-light",
+        "mixed-light"
+      ],
+      "requires": [
+        "softbox"
+      ]
+    },
+    {
+      "id": "di.feather",
+      "axis": "direction",
+      "difficulty": 2,
+      "text": "Feather the softbox: aim it just past your subject so only the edge of the light falls on them.",
+      "why": "The edge of a soft light is softer still, and it falls off gently into shadow.",
+      "tags": [
+        "soft-light"
+      ],
+      "excludes": [
+        "hard-light"
+      ],
+      "requires": [
+        "softbox"
+      ]
+    },
+    {
+      "id": "di.spot",
+      "axis": "direction",
+      "difficulty": 2,
+      "text": "A spotlight on one detail: snoot or grid your light so everything else falls into darkness.",
+      "why": "Where the light goes, the eye goes. Here you decide exactly where that is.",
+      "tags": [
+        "hard-light",
+        "low-key"
+      ],
+      "excludes": [
+        "soft-light",
+        "high-key"
+      ],
+      "requires": [
+        "snoot"
+      ]
+    },
+    {
+      "id": "so.flag",
+      "axis": "source",
+      "difficulty": 1,
+      "text": "Flag the light: use a card so it never touches the background.",
+      "why": "Controlling where light doesn't go is half of lighting.",
+      "tags": [],
+      "excludes": [],
+      "requires": [
+        "snoot"
+      ]
+    },
+    {
+      "id": "ex.grad",
+      "axis": "exposure",
+      "difficulty": 2,
+      "text": "Hold the sky back with your graduated ND: no bracketing, no blending.",
+      "why": "Getting it right in one frame forces you to read the light carefully.",
+      "tags": [
+        "sky"
+      ],
+      "excludes": [
+        "looking-down",
+        "high-key"
+      ],
+      "requires": [
+        "grad-nd"
+      ],
+      "place": [
+        "outdoor"
+      ]
+    },
+    {
+      "id": "co.big-sky",
+      "axis": "composition",
+      "difficulty": 1,
+      "text": "Low horizon, big sky, with the grad ND on the sky.",
+      "why": "When the sky is the story, give it most of the frame.",
+      "tags": [
+        "sky",
+        "negative-space"
+      ],
+      "excludes": [
+        "steep-angle",
+        "filled-frame"
+      ],
+      "requires": [
+        "grad-nd"
+      ],
+      "place": [
+        "outdoor"
+      ]
+    },
+    {
+      "id": "di.grad-sunset",
+      "axis": "direction",
+      "difficulty": 2,
+      "text": "Shoot straight into the sunset with the grad holding the sky.",
+      "why": "Backlight at the end of the day, without losing the ground to black.",
+      "tags": [
+        "backlight",
+        "bright-source",
+        "sun"
+      ],
+      "excludes": [
+        "frontlight",
+        "rain"
+      ],
+      "requires": [
+        "grad-nd"
+      ],
+      "time": [
+        "golden"
+      ],
+      "place": [
+        "outdoor"
+      ]
+    },
+    {
+      "id": "fo.bloom",
+      "axis": "focus",
+      "difficulty": 1,
+      "text": "Diffusion filter on and point lights in every frame: let them bloom.",
+      "why": "Halation makes lights feel warm and filmic, like a memory.",
+      "tags": [
+        "soft-subject"
+      ],
+      "excludes": [
+        "sharp-all"
+      ],
+      "requires": [
+        "diffusion"
+      ],
+      "time": [
+        "golden",
+        "night"
+      ]
+    },
+    {
+      "id": "ex.glow",
+      "axis": "exposure",
+      "difficulty": 2,
+      "text": "Diffusion filter and +1 EV: make the highlights glow.",
+      "why": "Bright, soft and glowing: the opposite of crisp, and just as valid.",
+      "tags": [
+        "high-key"
+      ],
+      "excludes": [
+        "low-key",
+        "silhouette"
+      ],
+      "requires": [
+        "diffusion"
+      ]
+    },
+    {
+      "id": "su.soft-portrait",
+      "axis": "subject",
+      "difficulty": 2,
+      "text": "A soft, glowing portrait through the diffusion filter.",
+      "why": "Diffusion flatters skin and turns a portrait into a mood.",
+      "tags": [
+        "people",
+        "soft-subject"
+      ],
+      "excludes": [
+        "no-people",
+        "sharp-all"
+      ],
+      "requires": [
+        "diffusion"
+      ]
+    },
+    {
+      "id": "so.star-lights",
+      "axis": "source",
+      "difficulty": 1,
+      "text": "Star filter on: find a scene with at least five points of light and turn them into stars.",
+      "why": "Many small stars make a pattern. One star is just a sparkle.",
+      "tags": [],
+      "excludes": [],
+      "requires": [
+        "star"
+      ],
+      "time": [
+        "golden",
+        "night"
+      ]
+    },
+    {
+      "id": "su.sparkle",
+      "axis": "subject",
+      "difficulty": 1,
+      "text": "Star filter on sparkling water or chrome in daylight.",
+      "why": "Daylight sparkle is fleeting. The filter catches it and makes it graphic.",
+      "tags": [
+        "reflection",
+        "sun"
+      ],
+      "excludes": [
+        "rain",
+        "overcast"
+      ],
+      "requires": [
+        "star"
+      ],
+      "time": [
+        "day"
+      ],
+      "place": [
+        "outdoor"
+      ]
+    },
+    {
+      "id": "ex.infrared",
+      "axis": "exposure",
+      "difficulty": 3,
+      "text": "Infrared: make the foliage glow white. Tripod, and expose for 10 seconds or longer.",
+      "why": "Infrared shows a world your eyes can't see: white trees, black skies.",
+      "tags": [
+        "slow-shutter",
+        "long-exposure",
+        "on-tripod",
+        "infrared"
+      ],
+      "excludes": [
+        "fast-shutter",
+        "freeze",
+        "handheld",
+        "fixed-shutter",
+        "colour-dependent"
+      ],
+      "requires": [
+        "ir",
+        "tripod"
+      ],
+      "time": [
+        "day"
+      ],
+      "place": [
+        "outdoor"
+      ]
+    },
+    {
+      "id": "su.ir-landscape",
+      "axis": "subject",
+      "difficulty": 2,
+      "text": "Infrared landscape: dark sky, white trees, clouds that pop.",
+      "why": "Infrared turns an ordinary green field into something otherworldly.",
+      "tags": [
+        "infrared",
+        "distance"
+      ],
+      "excludes": [
+        "colour-dependent",
+        "close-up"
+      ],
+      "requires": [
+        "ir"
+      ],
+      "time": [
+        "day"
+      ],
+      "place": [
+        "outdoor"
+      ]
+    },
+    {
+      "id": "fo.tubes",
+      "axis": "focus",
+      "difficulty": 2,
+      "text": "Extension tubes on: focus by moving the camera, not the ring.",
+      "why": "At high magnification, rocking back and forth is the only way to place focus.",
+      "tags": [
+        "close-up",
+        "manual-focus",
+        "hand-size"
+      ],
+      "excludes": [
+        "distance",
+        "hyperfocal",
+        "large-subject"
+      ],
+      "requires": [
+        "extension-tubes"
+      ]
+    },
+    {
+      "id": "su.tiny-everyday",
+      "axis": "subject",
+      "difficulty": 2,
+      "text": "Extreme close-ups of everyday things: a coin, a leaf, a zip.",
+      "why": "Close enough, everything familiar turns into an abstract landscape.",
+      "tags": [
+        "close-up",
+        "hand-size"
+      ],
+      "excludes": [
+        "distance",
+        "large-subject",
+        "hyperfocal"
+      ],
+      "requires": [
+        "macro"
+      ]
+    },
+    {
+      "id": "lens.tc",
+      "axis": "lens",
+      "difficulty": 2,
+      "text": "Teleconverter on, and stay there: use the extra reach to compress the scene.",
+      "why": "Extra focal length stacks distant things together like cards.",
+      "tags": [
+        "tele",
+        "distance"
+      ],
+      "excludes": [
+        "close-up"
+      ],
+      "requires": [
+        "teleconverter",
+        "tele"
+      ]
+    },
+    {
+      "id": "lens.fisheye-straight",
+      "axis": "lens",
+      "difficulty": 2,
+      "text": "Fisheye: keep the horizon through the dead centre so it stays straight.",
+      "why": "Knowing where a fisheye doesn't bend is how you control it.",
+      "tags": [
+        "wide",
+        "centered"
+      ],
+      "excludes": [
+        "off-center",
+        "tilted"
+      ],
+      "requires": [
+        "fisheye"
+      ]
+    },
+    {
+      "id": "lens.fisheye-bend",
+      "axis": "lens",
+      "difficulty": 1,
+      "text": "Fisheye: bend the world on purpose. Put a straight line near the edge.",
+      "why": "When you exaggerate the curve, it reads as a choice, not a flaw.",
+      "tags": [
+        "wide",
+        "bent-lines"
+      ],
+      "excludes": [
+        "level-lines"
+      ],
+      "requires": [
+        "fisheye"
+      ]
+    },
+    {
+      "id": "lens.fisheye-close",
+      "axis": "lens",
+      "difficulty": 2,
+      "text": "Fisheye within 20 cm of your subject.",
+      "why": "Up close, a fisheye makes the subject huge and the world a curved backdrop.",
+      "tags": [
+        "wide",
+        "close-up"
+      ],
+      "excludes": [
+        "distance"
+      ],
+      "requires": [
+        "fisheye"
+      ]
+    },
+    {
+      "id": "lens.miniature",
+      "axis": "lens",
+      "difficulty": 2,
+      "text": "Tilt-shift miniature: shoot a busy scene from above and tilt the focus to a thin band.",
+      "why": "A thin slice of focus fools the brain into seeing a model village.",
+      "tags": [
+        "high-angle",
+        "defocus"
+      ],
+      "excludes": [
+        "low-angle",
+        "deep-focus"
+      ],
+      "requires": [
+        "tilt-lens"
+      ]
+    },
+    {
+      "id": "lens.sweet-spot",
+      "axis": "lens",
+      "difficulty": 2,
+      "text": "Put the sharp spot of your tilt lens or Lensbaby somewhere unexpected: a corner, not the middle.",
+      "why": "Selective focus is a spotlight for the eye. Point it somewhere surprising.",
+      "tags": [
+        "off-center",
+        "defocus"
+      ],
+      "excludes": [
+        "centered",
+        "deep-focus",
+        "sharp-all"
+      ],
+      "requires": [
+        "tilt-lens"
+      ]
+    },
+    {
+      "id": "lens.tilt-plane",
+      "axis": "lens",
+      "difficulty": 3,
+      "text": "Tilt the plane of focus so a whole tabletop is sharp without stopping down.",
+      "why": "Tilt changes which way 'sharp' runs through the scene, not just how deep it is.",
+      "tags": [
+        "deep-focus"
+      ],
+      "excludes": [
+        "defocus",
+        "defocus-bg"
+      ],
+      "requires": [
+        "tilt-lens"
+      ]
+    },
+    {
+      "id": "lens.manual-only",
+      "axis": "lens",
+      "difficulty": 2,
+      "text": "Old manual lens only: focus and set the aperture by hand.",
+      "why": "Slower handling slows your seeing. Every frame is a decision.",
+      "tags": [
+        "manual-focus"
+      ],
+      "excludes": [
+        "zoom-action"
+      ],
+      "requires": [
+        "manual-lens"
+      ]
+    },
+    {
+      "id": "lens.character",
+      "axis": "lens",
+      "difficulty": 1,
+      "text": "Find your old lens's character, whether swirl, flare or glow, and make it the subject.",
+      "why": "Old lenses have flaws you can't buy anymore. Play to them.",
+      "tags": [],
+      "excludes": [
+        "sharp-all"
+      ],
+      "requires": [
+        "manual-lens"
+      ]
+    },
+    {
+      "id": "fo.manual-moving",
+      "axis": "focus",
+      "difficulty": 3,
+      "text": "Manual lens, wide open, moving subject: nail the focus by hand.",
+      "why": "Pre-focusing and timing beat autofocus when you practise them.",
+      "tags": [
+        "manual-focus",
+        "wide-aperture"
+      ],
+      "excludes": [
+        "narrow-aperture",
+        "deep-focus"
+      ],
+      "requires": [
+        "manual-lens"
+      ]
+    },
+    {
+      "id": "vp.lensball",
+      "axis": "viewpoint",
+      "difficulty": 1,
+      "text": "Shoot the scene through a lensball or crystal: the whole picture inside the glass.",
+      "why": "A sphere flips and shrinks the world into a tiny planet you can hold.",
+      "tags": [
+        "close-up"
+      ],
+      "excludes": [
+        "distance"
+      ],
+      "requires": [
+        "prism"
+      ]
+    },
+    {
+      "id": "di.prism",
+      "axis": "direction",
+      "difficulty": 2,
+      "text": "Hold a prism at the edge of the lens and let rainbow flare spill into the frame.",
+      "why": "Light you add in front of the lens changes the whole mood of a frame.",
+      "tags": [
+        "bright-source"
+      ],
+      "excludes": [
+        "overcast"
+      ],
+      "requires": [
+        "prism"
+      ]
+    },
+    {
+      "id": "co.mirror-split",
+      "axis": "composition",
+      "difficulty": 2,
+      "text": "Hold a mirror under or beside the lens to double the scene.",
+      "why": "A mirror makes symmetry where there is none and adds a second world to the frame.",
+      "tags": [
+        "reflection"
+      ],
+      "excludes": [],
+      "requires": [
+        "prism"
+      ]
+    },
+    {
+      "id": "ap.fairy-bokeh",
+      "axis": "aperture",
+      "difficulty": 1,
+      "text": "Fairy lights right in front of the lens, wide open: frame your subject through the blur.",
+      "why": "Foreground bokeh makes the viewer feel they're peeking into the scene.",
+      "tags": [
+        "wide-aperture",
+        "defocus",
+        "layers"
+      ],
+      "excludes": [
+        "narrow-aperture",
+        "deep-focus"
+      ],
+      "requires": [
+        "fairy-lights"
+      ]
+    },
+    {
+      "id": "so.fairy-only",
+      "axis": "source",
+      "difficulty": 1,
+      "text": "Fairy lights are your only light.",
+      "why": "Lots of tiny sources make soft, warm, sparkly light.",
+      "tags": [
+        "artificial-only",
+        "ambient-only",
+        "fixed-light"
+      ],
+      "excludes": [
+        "natural-only",
+        "sun",
+        "flash"
+      ],
+      "requires": [
+        "fairy-lights"
+      ]
+    },
+    {
+      "id": "ss.fairy-swing",
+      "axis": "shutter",
+      "difficulty": 2,
+      "text": "Swing the fairy lights during a 2-second exposure.",
+      "why": "Moving lights draw shapes that only exist in the photograph.",
+      "tags": [
+        "slow-shutter",
+        "long-exposure",
+        "on-tripod",
+        "motion-blur",
+        "light-painting"
+      ],
+      "excludes": [
+        "fast-shutter",
+        "freeze",
+        "handheld",
+        "fixed-shutter",
+        "fixed-light",
+        "sharp-all"
+      ],
+      "requires": [
+        "fairy-lights",
+        "tripod"
+      ],
+      "time": [
+        "golden",
+        "night"
+      ]
+    },
+    {
+      "id": "su.drops",
+      "axis": "subject",
+      "difficulty": 1,
+      "text": "Water drops: mist a leaf, a window or a bottle and photograph the drops.",
+      "why": "Each drop is a tiny lens with its own picture of the world inside.",
+      "tags": [
+        "close-up",
+        "hand-size"
+      ],
+      "excludes": [
+        "distance",
+        "large-subject",
+        "hyperfocal"
+      ],
+      "requires": [
+        "spray"
+      ]
+    },
+    {
+      "id": "di.mist",
+      "axis": "direction",
+      "difficulty": 2,
+      "text": "Spray mist into the air in front of a light behind your subject.",
+      "why": "Backlit mist makes light visible and gives the scene depth.",
+      "tags": [
+        "backlight"
+      ],
+      "excludes": [
+        "frontlight"
+      ],
+      "requires": [
+        "spray"
+      ]
+    },
+    {
+      "id": "so.cellophane",
+      "axis": "source",
+      "difficulty": 1,
+      "text": "Cover your light with coloured cellophane and commit to the colour.",
+      "why": "Coloured light changes the mood of a scene more than any edit.",
+      "tags": [
+        "artificial-only",
+        "colour-dependent",
+        "coloured-light",
+        "hue-cast"
+      ],
+      "excludes": [
+        "natural-only",
+        "sun",
+        "bw",
+        "monotone",
+        "tonal-only"
+      ],
+      "requires": [
+        "cellophane"
+      ]
+    },
+    {
+      "id": "ct.cellophane",
+      "axis": "colour",
+      "difficulty": 2,
+      "text": "Hold coloured cellophane over part of the lens: a wash of colour in one corner.",
+      "why": "A colour wash adds atmosphere and leads the eye away from or towards the subject.",
+      "tags": [
+        "colour-dependent",
+        "hue-cast"
+      ],
+      "excludes": [
+        "bw",
+        "monotone",
+        "tonal-only",
+        "hue-rule",
+        "grey-frame"
+      ],
+      "requires": [
+        "cellophane"
+      ]
+    },
+    {
+      "id": "su.backdrop-portrait",
+      "axis": "subject",
+      "difficulty": 1,
+      "text": "A portrait in front of your plain backdrop, with nothing else to look at.",
+      "why": "Remove the background and all that's left is the person.",
+      "tags": [
+        "people"
+      ],
+      "excludes": [
+        "no-people"
+      ],
+      "requires": [
+        "backdrop"
+      ]
+    },
+    {
+      "id": "cn.backdrop-out",
+      "axis": "concept",
+      "difficulty": 2,
+      "text": "Take the backdrop outside and put something everyday in front of it.",
+      "why": "A studio in the street makes ordinary things look like specimens.",
+      "tags": [],
+      "excludes": [],
+      "requires": [
+        "backdrop"
+      ],
+      "place": [
+        "outdoor"
+      ]
+    },
+    {
+      "id": "cn.double-portrait",
+      "axis": "concept",
+      "difficulty": 2,
+      "text": "In-camera double exposure: a person's silhouette filled with the place they love.",
+      "why": "Two pictures in one frame say something neither could say alone.",
+      "tags": [
+        "multiple-exposure",
+        "people"
+      ],
+      "excludes": [
+        "no-people"
+      ],
+      "requires": [
+        "multi-exposure"
+      ]
+    },
+    {
+      "id": "di.reflector-up",
+      "axis": "direction",
+      "difficulty": 1,
+      "text": "Hold the reflector low and throw light up into your subject's shadows.",
+      "why": "A small bounce from below opens up eyes and shadows without anyone noticing it's there.",
+      "tags": [
+        "soft-light"
+      ],
+      "excludes": [
+        "hard-light"
+      ],
+      "requires": [
+        "reflector"
+      ]
+    },
+    {
+      "id": "fl.gel-bg",
+      "axis": "flash",
+      "difficulty": 2,
+      "text": "Gel the flash a strong colour and point it only at the background.",
+      "why": "A coloured background separates your subject and sets the mood without touching the skin tones.",
+      "tags": [
+        "flash",
+        "colour-dependent",
+        "coloured-light"
+      ],
+      "excludes": [
+        "natural-only",
+        "bw",
+        "monotone",
+        "tonal-only"
+      ],
+      "requires": [
+        "gels",
+        "flash"
+      ]
+    },
+    {
+      "id": "ap.nd-open",
+      "axis": "aperture",
+      "difficulty": 2,
+      "text": "ND filter in bright sun, so you can shoot wide open.",
+      "why": "Shallow depth of field in harsh light needs less light, not a faster shutter.",
+      "tags": [
+        "wide-aperture",
+        "sun"
+      ],
+      "excludes": [
+        "narrow-aperture",
+        "deep-focus",
+        "overcast",
+        "rain"
+      ],
+      "requires": [
+        "nd"
+      ],
+      "time": [
+        "day"
+      ],
+      "place": [
+        "outdoor"
+      ]
+    },
+    {
+      "id": "su.under-water",
+      "axis": "subject",
+      "difficulty": 2,
+      "text": "Polariser on: photograph what's under the surface of water, not the reflection on it.",
+      "why": "Cutting the glare turns a mirror into a window.",
+      "tags": [
+        "no-reflection"
+      ],
+      "excludes": [
+        "reflection"
+      ],
+      "requires": [
+        "polariser"
+      ],
+      "time": [
+        "day",
+        "golden"
+      ],
+      "place": [
+        "outdoor"
+      ]
+    },
+    {
+      "id": "lens.tc-detail",
+      "axis": "lens",
+      "difficulty": 2,
+      "text": "Teleconverter on: pick details off buildings or trees you can't get near.",
+      "why": "Reach lets you find small pictures inside big scenes.",
+      "tags": [
+        "tele",
+        "distance"
+      ],
+      "excludes": [
+        "close-up"
+      ],
+      "requires": [
+        "teleconverter",
+        "tele"
       ]
     }
   ]

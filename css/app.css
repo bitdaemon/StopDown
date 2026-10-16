@@ -289,3 +289,5 @@ a.row:hover, button.row:hover { background: var(--surface-2); }
 @media (min-width: 900px) {
   .card-text { font-size: 20px; }
 }
+
+.section h2 .h-count { display: inline-block; min-width: 18px; padding: 0 6px; margin-left: 4px; border-radius: 9px; background: var(--accent-strong); color: #fff; font-size: 11px; line-height: 18px; text-align: center; vertical-align: 1px; }

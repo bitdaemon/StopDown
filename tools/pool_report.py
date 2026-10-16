@@ -17,8 +17,16 @@ ROOT = Path(__file__).resolve().parent.parent
 LIBRARY = ROOT / "data" / "constraints.js"
 PROFILES = Path(__file__).resolve().parent / "profiles.json"
 
-ACCESSORIES = {"tripod", "flash", "off-camera-flash", "nd", "polariser", "reflector", "gels", "multi-exposure"}
-LENS_CAPS = {"zoom", "prime", "wide", "tele", "fast-lens", "macro"}
+ACCESSORIES = {
+    "multi-exposure", "remote", "phone-camera", "film-camera",                       # camera
+    "tripod", "monopod", "clamp",                                                     # support
+    "flash", "off-camera-flash", "second-flash", "led", "softbox", "snoot", "reflector", "gels",  # light
+    "nd", "polariser", "grad-nd", "diffusion", "star", "ir",                          # filters
+    "extension-tubes", "teleconverter",                                               # lens add-ons
+    "prism", "fairy-lights", "spray", "cellophane", "backdrop",                       # props
+}
+LENS_TRAITS = {"isMacro": "macro", "isFisheye": "fisheye", "isTilt": "tilt-lens", "isManual": "manual-lens"}
+LENS_CAPS = {"zoom", "prime", "wide", "tele", "fast-lens"} | set(LENS_TRAITS.values())
 KNOWN_CAPS = ACCESSORIES | LENS_CAPS
 TIMES = {"day", "golden", "night"}
 PLACES = {"indoor", "outdoor"}
@@ -36,16 +44,19 @@ def load_library():
 # ---------- gear ----------
 def capabilities(profile):
     caps = set(profile.get("accessories", []))
-    if "off-camera-flash" in caps:
+    if caps & {"off-camera-flash", "second-flash"}:
         caps.add("flash")
+    if "extension-tubes" in caps:
+        caps.add("macro")
+    reach = 1.4 if "teleconverter" in caps else 1.0
     crop = profile.get("cropFactor", 1.0)
     for l in profile.get("lenses", []):
         if l["minFocal"] < l["maxFocal"]: caps.add("zoom")
         if l["minFocal"] == l["maxFocal"]: caps.add("prime")
         if l["minFocal"] * crop <= 28: caps.add("wide")
-        if l["maxFocal"] * crop >= 100: caps.add("tele")
+        if l["maxFocal"] * reach * crop >= 100: caps.add("tele")
         if l["maxAperture"] <= 2.0: caps.add("fast-lens")
-        if l.get("isMacro"): caps.add("macro")
+        caps.update(cap for key, cap in LENS_TRAITS.items() if l.get(key))
     return caps
 
 

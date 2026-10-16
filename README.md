@@ -22,8 +22,8 @@ So I made something that knows what's in my bag. If you don't own a fast lens, y
 
 ## Features
 
-- **247 constraints across 16 categories**, grouped into Camera & settings, Light, Composition, Subject & idea, and Limits & output.
-- **Gear-aware.** Tell it your sensor size, lenses and accessories (tripod, flash, ND, polariser and so on), and it only deals cards you can actually do. Cards that ask for a focal length only use lengths you own.
+- **317 constraints across 16 categories**, grouped into Camera & settings, Light, Composition, Subject & idea, and Limits & output.
+- **Gear-aware.** Tell it your sensor size, lenses (including fisheye, tilt-shift/Lensbaby and old manual lenses) and extras, grouped into Camera, Support, Light, Filters, Lens add-ons and Props. It only deals cards you can actually do. Cards that ask for a focal length only use lengths you own.
 - **Type your lens the way it's printed on it.** "AF-S Nikkor 35mm 1:1.8G" fills in the focal length and aperture by itself.
 - **Random or focused.** Go fully random, or pick categories you want to practise. Each one you pick is guaranteed a card.
 - **1 to 10 cards.** Lock the ones you like, reroll single cards or everything that isn't locked.
@@ -107,7 +107,14 @@ A constraint looks like this:
 ```
 
 - **`tags` and `excludes`:** what the card asserts, and what can't appear on another card in the same hand.
-- **`requires`:** gear it needs: zoom, prime, wide, tele, fast-lens, macro, tripod, flash, off-camera-flash, nd, polariser, reflector, gels, multi-exposure.
+- **`requires`:** gear it needs. Every item must be present.
+  - lenses: zoom, prime, wide, tele, fast-lens, macro, fisheye, tilt-lens, manual-lens
+  - camera: multi-exposure, remote, phone-camera, film-camera
+  - support: tripod, monopod, clamp
+  - light: flash, off-camera-flash, second-flash, led, softbox, snoot, reflector, gels
+  - filters: nd, polariser, grad-nd, diffusion, star, ir
+  - lens add-ons: extension-tubes (also counts as macro), teleconverter
+  - props: prism, fairy-lights, spray, cellophane, backdrop
 - **`time` and `place`:** optional limits (day / golden / night, indoor / outdoor).
 - **`{focal}`:** filled from your lenses. Any other `{word}` comes from the matching list under `lists`.
 - **`id`:** keep ids unique and don't reuse old ones, since people's history refers to them.
@@ -117,7 +124,7 @@ Then check your changes:
 ```sh
 python3 tools/pool_report.py               # validates the library and counts the pool per gear profile
 python3 tools/pool_report.py --sample 20   # prints 20 random challenges so you can read how they feel
-node --test tests/core.test.js             # tests for the generator, gear and lens parsing
+node --test tests/core.test.js             # generator, gear, lens parsing, and the no-contradictions checks
 ```
 
 Got an idea for a good constraint? Open an issue with the **Constraint idea** template. I'd love to hear it.

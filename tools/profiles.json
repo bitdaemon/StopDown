@@ -2,17 +2,130 @@
   "starter": {
     "cropFactor": 1.5,
     "lenses": [
-      {"name": "18-55mm f/3.5-5.6 kit", "minFocal": 18, "maxFocal": 55, "maxAperture": 3.5, "isMacro": false}
+      {
+        "name": "18-55mm f/3.5-5.6 kit",
+        "minFocal": 18,
+        "maxFocal": 55,
+        "maxAperture": 3.5,
+        "isMacro": false
+      }
     ],
     "accessories": []
   },
   "enthusiast": {
     "cropFactor": 1.5,
     "lenses": [
-      {"name": "18-55mm f/3.5-5.6", "minFocal": 18, "maxFocal": 55, "maxAperture": 3.5, "isMacro": false},
-      {"name": "50mm f/1.8", "minFocal": 50, "maxFocal": 50, "maxAperture": 1.8, "isMacro": false},
-      {"name": "70-300mm f/4.5-5.6", "minFocal": 70, "maxFocal": 300, "maxAperture": 4.5, "isMacro": false}
+      {
+        "name": "18-55mm f/3.5-5.6",
+        "minFocal": 18,
+        "maxFocal": 55,
+        "maxAperture": 3.5,
+        "isMacro": false
+      },
+      {
+        "name": "50mm f/1.8",
+        "minFocal": 50,
+        "maxFocal": 50,
+        "maxAperture": 1.8,
+        "isMacro": false
+      },
+      {
+        "name": "70-300mm f/4.5-5.6",
+        "minFocal": 70,
+        "maxFocal": 300,
+        "maxAperture": 4.5,
+        "isMacro": false
+      }
     ],
-    "accessories": ["tripod", "flash", "off-camera-flash", "reflector", "nd", "gels", "multi-exposure"]
+    "accessories": [
+      "tripod",
+      "flash",
+      "off-camera-flash",
+      "reflector",
+      "nd",
+      "gels",
+      "multi-exposure"
+    ]
+  },
+  "everything": {
+    "cropFactor": 1.5,
+    "lenses": [
+      {
+        "name": "18-55mm f/3.5-5.6",
+        "minFocal": 18,
+        "maxFocal": 55,
+        "maxAperture": 3.5
+      },
+      {
+        "name": "35mm f/1.8",
+        "minFocal": 35,
+        "maxFocal": 35,
+        "maxAperture": 1.8
+      },
+      {
+        "name": "70-300mm f/4.5-5.6",
+        "minFocal": 70,
+        "maxFocal": 300,
+        "maxAperture": 4.5
+      },
+      {
+        "name": "105mm f/2.8 micro",
+        "minFocal": 105,
+        "maxFocal": 105,
+        "maxAperture": 2.8,
+        "isMacro": true
+      },
+      {
+        "name": "10.5mm fisheye",
+        "minFocal": 10,
+        "maxFocal": 10,
+        "maxAperture": 2.8,
+        "isFisheye": true
+      },
+      {
+        "name": "Lensbaby Composer 50mm",
+        "minFocal": 50,
+        "maxFocal": 50,
+        "maxAperture": 2.5,
+        "isTilt": true
+      },
+      {
+        "name": "Helios 44-2 58mm f/2",
+        "minFocal": 58,
+        "maxFocal": 58,
+        "maxAperture": 2,
+        "isManual": true
+      }
+    ],
+    "accessories": [
+      "multi-exposure",
+      "remote",
+      "phone-camera",
+      "film-camera",
+      "tripod",
+      "monopod",
+      "clamp",
+      "flash",
+      "off-camera-flash",
+      "second-flash",
+      "led",
+      "softbox",
+      "snoot",
+      "reflector",
+      "gels",
+      "nd",
+      "polariser",
+      "grad-nd",
+      "diffusion",
+      "star",
+      "ir",
+      "extension-tubes",
+      "teleconverter",
+      "prism",
+      "fairy-lights",
+      "spray",
+      "cellophane",
+      "backdrop"
+    ]
   }
 }

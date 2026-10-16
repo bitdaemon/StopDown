@@ -2,7 +2,7 @@
  * StopDown service worker: caches the whole app on first visit so it works offline.
  * Bump VERSION whenever you change any file listed in FILES, so phones pick up the update.
  */
-const VERSION = "stopdown-v3";
+const VERSION = "stopdown-v4";
 const FILES = [
   "./",
   "index.html",
