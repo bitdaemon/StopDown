@@ -123,6 +123,12 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "name": "Output & edit",
       "group": "limits",
       "symbol": "photo"
+    },
+    {
+      "id": "colour",
+      "name": "Colour & tone",
+      "group": "composition",
+      "symbol": "paintpalette"
     }
   ],
   "lists": {
@@ -221,6 +227,18 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "50",
       "100",
       "200"
+    ],
+    "material": [
+      "glass",
+      "brick",
+      "steel",
+      "wood",
+      "water",
+      "paper",
+      "stone",
+      "plastic",
+      "fabric",
+      "rust"
     ]
   },
   "constraints": [
@@ -262,6 +280,9 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       ],
       "requires": [
         "tele"
+      ],
+      "excludes": [
+        "close-up"
       ]
     },
     {
@@ -271,7 +292,9 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "text": "Set {focal}mm and photograph one subject from five different distances.",
       "why": "Perspective comes from where you stand, not from the zoom ring. This makes that visible.",
       "tags": [
-        "single-focal"
+        "single-focal",
+        "moving-feet",
+        "multi-frame"
       ]
     },
     {
@@ -308,10 +331,13 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "text": "Macro lens only, and nothing you shoot may be bigger than your hand.",
       "why": "Magnification turns ordinary surfaces into landscapes and demands careful focus and stillness.",
       "tags": [
-        "close-up"
+        "close-up",
+        "hand-size"
       ],
       "excludes": [
-        "distance"
+        "distance",
+        "large-subject",
+        "hyperfocal"
       ],
       "requires": [
         "macro"
@@ -327,7 +353,8 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
         "close-up"
       ],
       "excludes": [
-        "distance"
+        "distance",
+        "hyperfocal"
       ]
     },
     {
@@ -384,7 +411,8 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "text": "Shoot every frame wide open.",
       "why": "Maximum aperture gives the shallowest depth of field. You must choose exactly one thing to be sharp.",
       "tags": [
-        "wide-aperture"
+        "wide-aperture",
+        "fixed-aperture"
       ],
       "excludes": [
         "narrow-aperture",
@@ -396,7 +424,10 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "axis": "aperture",
       "difficulty": 1,
       "text": "Lock the aperture at f/8 for the whole session.",
-      "why": "f/8 is most lenses' sharpest zone and gives forgiving depth of field. That frees you to focus on moments."
+      "why": "f/8 is most lenses' sharpest zone and gives forgiving depth of field. That frees you to focus on moments.",
+      "tags": [
+        "fixed-aperture"
+      ]
     },
     {
       "id": "ap.f16",
@@ -405,7 +436,8 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "text": "Stop down to f/16 or smaller for every frame.",
       "why": "Small apertures give depth but cost light and some sharpness (diffraction). Watch your shutter speed.",
       "tags": [
-        "narrow-aperture"
+        "narrow-aperture",
+        "fixed-aperture"
       ],
       "excludes": [
         "wide-aperture",
@@ -419,7 +451,8 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "text": "Find a point of light and turn it into a sunstar at f/16 or smaller.",
       "why": "Point lights turn into stars at small apertures because of the aperture blades' shape.",
       "tags": [
-        "narrow-aperture"
+        "narrow-aperture",
+        "fixed-aperture"
       ],
       "excludes": [
         "wide-aperture",
@@ -431,7 +464,12 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "axis": "aperture",
       "difficulty": 2,
       "text": "Shoot every scene twice: wide open and at f/16. Keep only the better one.",
-      "why": "Comparing extremes side by side shows you what depth of field does for a particular subject."
+      "why": "Comparing extremes side by side shows you what depth of field does for a particular subject.",
+      "tags": [
+        "fixed-aperture",
+        "multi-frame",
+        "varies-exposure"
+      ]
     },
     {
       "id": "ap.bokeh-lights",
@@ -458,7 +496,8 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "text": "Shoot at f/2 or wider.",
       "why": "Very fast apertures give a razor-thin plane of focus, so focus has to be exact.",
       "tags": [
-        "wide-aperture"
+        "wide-aperture",
+        "fixed-aperture"
       ],
       "excludes": [
         "narrow-aperture",
@@ -473,7 +512,12 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "axis": "aperture",
       "difficulty": 2,
       "text": "Aperture priority: change the aperture by one full stop after every frame.",
-      "why": "Cycling through the stops shows how each one changes depth of field and shutter speed."
+      "why": "Cycling through the stops shows how each one changes depth of field and shutter speed.",
+      "tags": [
+        "fixed-aperture",
+        "varies-exposure",
+        "aperture-priority"
+      ]
     },
     {
       "id": "ap.near-far",
@@ -483,7 +527,9 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "why": "This needs a small aperture and hyperfocal focusing: focus about a third into the scene, not at infinity.",
       "tags": [
         "deep-focus",
-        "narrow-aperture"
+        "narrow-aperture",
+        "fixed-aperture",
+        "hyperfocal"
       ],
       "excludes": [
         "wide-aperture",
@@ -514,11 +560,13 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "why": "Deliberate blur records movement and mood instead of fact.",
       "tags": [
         "slow-shutter",
-        "motion-blur"
+        "motion-blur",
+        "handheld"
       ],
       "excludes": [
         "fast-shutter",
-        "freeze"
+        "freeze",
+        "on-tripod"
       ]
     },
     {
@@ -577,7 +625,8 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "why": "Long exposures smooth water and clouds and reveal light the eye can't gather.",
       "tags": [
         "slow-shutter",
-        "long-exposure"
+        "long-exposure",
+        "on-tripod"
       ],
       "excludes": [
         "fast-shutter",
@@ -599,7 +648,8 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "why": "ND filters cut light so you can use slow shutters in bright conditions.",
       "tags": [
         "slow-shutter",
-        "long-exposure"
+        "long-exposure",
+        "on-tripod"
       ],
       "excludes": [
         "fast-shutter",
@@ -625,7 +675,9 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "tags": [
         "slow-shutter",
         "long-exposure",
-        "people"
+        "people",
+        "on-tripod",
+        "large-subject"
       ],
       "excludes": [
         "fast-shutter",
@@ -644,6 +696,11 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "why": "The same subject tells a different story at 1/1000s and at 1s.",
       "place": [
         "outdoor"
+      ],
+      "tags": [
+        "varied-shutter",
+        "multi-frame",
+        "varies-exposure"
       ]
     },
     {
@@ -654,11 +711,13 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "why": "Zooming during the exposure makes streaks that rush toward the centre.",
       "tags": [
         "slow-shutter",
-        "motion-blur"
+        "motion-blur",
+        "zoom-action"
       ],
       "excludes": [
         "fast-shutter",
-        "freeze"
+        "freeze",
+        "single-focal"
       ],
       "requires": [
         "zoom"
@@ -672,7 +731,8 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "why": "Moving lights become lines in a long exposure. Look for curves and junctions.",
       "tags": [
         "slow-shutter",
-        "long-exposure"
+        "long-exposure",
+        "on-tripod"
       ],
       "excludes": [
         "fast-shutter",
@@ -719,6 +779,9 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "why": "Zone focusing is how street shooters work: stop down, pre-focus, and shoot the moment.",
       "tags": [
         "manual-focus"
+      ],
+      "excludes": [
+        "close-up"
       ]
     },
     {
@@ -748,7 +811,8 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "text": "Focus on the background and let the foreground blur.",
       "why": "A soft foreground frames the scene and gives depth.",
       "tags": [
-        "defocus"
+        "defocus",
+        "bg-sharp"
       ],
       "excludes": [
         "deep-focus"
@@ -779,7 +843,10 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "axis": "focus",
       "difficulty": 2,
       "text": "Shoot one scene three times, focusing near, then middle, then far.",
-      "why": "Three versions of one frame show how focus directs attention."
+      "why": "Three versions of one frame show how focus directs attention.",
+      "tags": [
+        "multi-frame"
+      ]
     },
     {
       "id": "fo.infinity",
@@ -788,10 +855,12 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "text": "Set focus to infinity and leave it there.",
       "why": "Fixed focus makes you work with distance and depth of field, not with the AF.",
       "tags": [
-        "manual-focus"
+        "manual-focus",
+        "bg-sharp"
       ],
       "excludes": [
-        "close-up"
+        "close-up",
+        "looking-down"
       ],
       "place": [
         "outdoor"
@@ -801,7 +870,7 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "id": "fo.eyes",
       "axis": "focus",
       "difficulty": 1,
-      "text": "Portraits only, and the nearest eye must be tack sharp.",
+      "text": "Put a person in every frame, and make the nearest eye tack sharp.",
       "why": "The eye is where viewers look first. Getting it sharp is the basic test of a portrait.",
       "tags": [
         "people"
@@ -859,7 +928,10 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "axis": "exposure",
       "difficulty": 1,
       "text": "Full manual mode, with no auto ISO.",
-      "why": "Setting all three yourself makes the exposure triangle something you feel, not just read about."
+      "why": "Setting all three yourself makes the exposure triangle something you feel, not just read about.",
+      "excludes": [
+        "aperture-priority"
+      ]
     },
     {
       "id": "ex.base-iso",
@@ -909,14 +981,22 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "axis": "exposure",
       "difficulty": 2,
       "text": "Meter once at the start and never change the exposure settings.",
-      "why": "Fixed settings make you look for light that fits them, rather than adjusting the camera to the light."
+      "why": "Fixed settings make you look for light that fits them, rather than adjusting the camera to the light.",
+      "excludes": [
+        "varies-exposure",
+        "varied-shutter"
+      ]
     },
     {
       "id": "ex.bracket",
       "axis": "exposure",
       "difficulty": 1,
       "text": "Bracket every scene at -2, 0 and +2 EV. Choose later.",
-      "why": "Seeing three exposures together teaches you which one the scene actually needed."
+      "why": "Seeing three exposures together teaches you which one the scene actually needed.",
+      "tags": [
+        "multi-frame",
+        "varies-exposure"
+      ]
     },
     {
       "id": "ex.wrong-wb",
@@ -925,7 +1005,8 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "text": "Set the 'wrong' white balance, such as tungsten in daylight, and commit to it.",
       "why": "White balance is a creative tool as well as a correction.",
       "tags": [
-        "colour-dependent"
+        "colour-dependent",
+        "hue-cast"
       ],
       "excludes": [
         "bw"
@@ -979,7 +1060,8 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "why": "Midday light is hard to use. Look for shade edges, reflections and strong graphic shadows.",
       "tags": [
         "toplight",
-        "hard-light"
+        "hard-light",
+        "sun"
       ],
       "excludes": [
         "soft-light"
@@ -1012,7 +1094,8 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "text": "Sun within 10 degrees of the horizon. Chase the long shadows.",
       "why": "Low sun rakes across surfaces and stretches shadows, adding warmth and depth.",
       "tags": [
-        "low-sun"
+        "low-sun",
+        "sun"
       ],
       "time": [
         "golden"
@@ -1038,7 +1121,8 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "text": "Dappled light through leaves or a screen.",
       "why": "Broken light adds pattern and can pick out one part of a scene.",
       "tags": [
-        "hard-light"
+        "hard-light",
+        "sun"
       ],
       "excludes": [
         "soft-light"
@@ -1057,7 +1141,8 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "text": "Point the lens at the light and use the flare.",
       "why": "Flare lowers contrast and adds atmosphere. Control it with small moves of the camera.",
       "tags": [
-        "backlight"
+        "backlight",
+        "bright-source"
       ],
       "excludes": [
         "frontlight"
@@ -1071,7 +1156,8 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "why": "Choose the stage first and let the subject arrive. This is patient, classic street work.",
       "tags": [
         "people",
-        "hard-light"
+        "hard-light",
+        "large-subject"
       ],
       "excludes": [
         "no-people",
@@ -1087,7 +1173,9 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "tags": [
         "window-light",
         "natural-only",
-        "soft-light"
+        "soft-light",
+        "ambient-only",
+        "fixed-light"
       ],
       "excludes": [
         "flash",
@@ -1113,7 +1201,8 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       ],
       "excludes": [
         "natural-only",
-        "window-light"
+        "window-light",
+        "sun"
       ]
     },
     {
@@ -1176,7 +1265,8 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "why": "Warm and cool light together make a natural colour contrast.",
       "tags": [
         "colour-dependent",
-        "mixed-light"
+        "mixed-light",
+        "warm-cool"
       ],
       "excludes": [
         "bw"
@@ -1189,11 +1279,15 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "text": "Light your subject with a phone torch.",
       "why": "A small moving light teaches you how distance and angle shape a subject.",
       "tags": [
-        "artificial-only"
+        "artificial-only",
+        "ambient-only",
+        "phone"
       ],
       "excludes": [
         "natural-only",
-        "window-light"
+        "window-light",
+        "flash",
+        "sun"
       ]
     },
     {
@@ -1214,11 +1308,17 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "why": "Coloured light changes the mood of a scene completely.",
       "tags": [
         "artificial-only",
-        "colour-dependent"
+        "colour-dependent",
+        "ambient-only",
+        "saturated",
+        "fixed-light",
+        "coloured-light"
       ],
       "excludes": [
         "bw",
-        "natural-only"
+        "natural-only",
+        "flash",
+        "sun"
       ],
       "time": [
         "night"
@@ -1231,11 +1331,16 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "text": "Candlelight or firelight only.",
       "why": "Flame is warm, low and flickering. It's a good test of handholding and ISO.",
       "tags": [
-        "artificial-only"
+        "artificial-only",
+        "ambient-only",
+        "fixed-light",
+        "warm-light"
       ],
       "excludes": [
         "natural-only",
-        "fast-shutter"
+        "fast-shutter",
+        "flash",
+        "sun"
       ]
     },
     {
@@ -1250,6 +1355,9 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       ],
       "place": [
         "outdoor"
+      ],
+      "excludes": [
+        "sun"
       ]
     },
     {
@@ -1382,7 +1490,9 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "why": "The subject comes out neutral while the background turns blue.",
       "tags": [
         "flash",
-        "colour-dependent"
+        "colour-dependent",
+        "hue-cast",
+        "warm-light"
       ],
       "excludes": [
         "bw",
@@ -1458,7 +1568,9 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       ],
       "excludes": [
         "natural-only",
-        "window-light"
+        "window-light",
+        "artificial-only",
+        "mixed-light"
       ],
       "requires": [
         "flash"
@@ -1528,7 +1640,15 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "axis": "shape",
       "difficulty": 1,
       "text": "Only vertical lines. Keep them perfectly straight.",
-      "why": "Straight verticals feel calm and architectural. Level the camera."
+      "why": "Straight verticals feel calm and architectural. Level the camera.",
+      "tags": [
+        "level-lines",
+        "vertical-lines"
+      ],
+      "excludes": [
+        "tilted",
+        "steep-angle"
+      ]
     },
     {
       "id": "sp.curve-vs-straight",
@@ -1637,6 +1757,9 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "why": "Moving the horizon to an edge shifts the weight to sky or ground.",
       "place": [
         "outdoor"
+      ],
+      "excludes": [
+        "steep-angle"
       ]
     },
     {
@@ -1644,7 +1767,10 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "axis": "composition",
       "difficulty": 1,
       "text": "Tilt the camera: every frame at a deliberate angle.",
-      "why": "A tilted horizon is unsettling and energetic. It only works if it's clearly on purpose."
+      "why": "A tilted horizon is unsettling and energetic. It only works if it's clearly on purpose.",
+      "tags": [
+        "tilted"
+      ]
     },
     {
       "id": "co.vertical",
@@ -1701,7 +1827,9 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "text": "Shoot straight down from above.",
       "why": "Top-down views flatten the scene into graphic patterns.",
       "tags": [
-        "high-angle"
+        "high-angle",
+        "steep-angle",
+        "looking-down"
       ],
       "excludes": [
         "low-angle"
@@ -1751,7 +1879,11 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "text": "Don't move your feet. Shoot everything from one spot.",
       "why": "With your position fixed, you can only change focal length, angle and timing.",
       "tags": [
-        "location-limit"
+        "location-limit",
+        "one-spot"
+      ],
+      "excludes": [
+        "moving-feet"
       ]
     },
     {
@@ -1759,14 +1891,21 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "axis": "viewpoint",
       "difficulty": 1,
       "text": "One subject from ten different angles.",
-      "why": "The first angle is rarely the best. Working a subject is a habit."
+      "why": "The first angle is rarely the best. Working a subject is a habit.",
+      "tags": [
+        "multi-frame",
+        "many-frames"
+      ]
     },
     {
       "id": "vp.low-high",
       "axis": "viewpoint",
       "difficulty": 2,
       "text": "One subject from the lowest and the highest point you can reach.",
-      "why": "The extremes of height change the relationships in a scene more than anything else."
+      "why": "The extremes of height change the relationships in a scene more than anything else.",
+      "tags": [
+        "multi-frame"
+      ]
     },
     {
       "id": "vp.hip",
@@ -1798,10 +1937,12 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "text": "Only {colour}: every frame must feature it.",
       "why": "Hunting one colour trains your eye to see colour before objects.",
       "tags": [
-        "colour-dependent"
+        "colour-dependent",
+        "hue-subject"
       ],
       "excludes": [
-        "bw"
+        "bw",
+        "hue-grade"
       ]
     },
     {
@@ -1836,7 +1977,11 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "axis": "subject",
       "difficulty": 2,
       "text": "One object, twenty frames.",
-      "why": "The first ten frames are obvious. The last ten are where the ideas are."
+      "why": "The first ten frames are obvious. The last ten are where the ideas are.",
+      "tags": [
+        "multi-frame",
+        "many-frames"
+      ]
     },
     {
       "id": "su.shadows",
@@ -1867,7 +2012,10 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "axis": "subject",
       "difficulty": 1,
       "text": "Doors and thresholds.",
-      "why": "Doors suggest stories and give you ready-made frames."
+      "why": "Doors suggest stories and give you ready-made frames.",
+      "tags": [
+        "large-subject"
+      ]
     },
     {
       "id": "su.stranger",
@@ -1876,7 +2024,8 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "text": "Ask a stranger for a portrait.",
       "why": "Asking is a skill. Most people say yes more often than you'd expect.",
       "tags": [
-        "people"
+        "people",
+        "large-subject"
       ],
       "excludes": [
         "no-people"
@@ -1904,6 +2053,9 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "why": "Rain, wind, fog and heat are hard to show directly. Look for what they do to things.",
       "place": [
         "outdoor"
+      ],
+      "tags": [
+        "large-subject"
       ]
     },
     {
@@ -1913,7 +2065,8 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "text": "Someone at work, in their workspace.",
       "why": "Occupational portraits combine a person, their tools and their environment.",
       "tags": [
-        "people"
+        "people",
+        "large-subject"
       ],
       "excludes": [
         "no-people"
@@ -1926,7 +2079,8 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "text": "Places that are normally busy, photographed empty.",
       "why": "Absence changes how a familiar place feels.",
       "tags": [
-        "no-people"
+        "no-people",
+        "large-subject"
       ],
       "excludes": [
         "people"
@@ -1964,7 +2118,10 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "axis": "concept",
       "difficulty": 3,
       "text": "Tell a story in three frames: beginning, middle and end.",
-      "why": "Sequencing is a separate skill from single images: each frame has a job."
+      "why": "Sequencing is a separate skill from single images: each frame has a job.",
+      "tags": [
+        "set"
+      ]
     },
     {
       "id": "cn.song",
@@ -2013,7 +2170,10 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "axis": "concept",
       "difficulty": 1,
       "text": "Honour the mistake: keep and develop your 'worst' frame of the day.",
-      "why": "Accidents often contain ideas you wouldn't have planned."
+      "why": "Accidents often contain ideas you wouldn't have planned.",
+      "tags": [
+        "worst-frame"
+      ]
     },
     {
       "id": "cn.question",
@@ -2030,6 +2190,9 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "why": "A limited frame count makes every press of the shutter a decision, as with film.",
       "tags": [
         "few-frames"
+      ],
+      "excludes": [
+        "many-frames"
       ]
     },
     {
@@ -2039,7 +2202,11 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "text": "One frame per subject. No second takes.",
       "why": "One take makes you get it right before you press.",
       "tags": [
-        "few-frames"
+        "few-frames",
+        "single-take"
+      ],
+      "excludes": [
+        "multi-frame"
       ]
     },
     {
@@ -2100,7 +2267,10 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "axis": "limits",
       "difficulty": 2,
       "text": "Take a photo every 100 steps, whatever is in front of you.",
-      "why": "Forced timing makes you find something in whatever is in front of you."
+      "why": "Forced timing makes you find something in whatever is in front of you.",
+      "tags": [
+        "moving-feet"
+      ]
     },
     {
       "id": "li.waiting",
@@ -2186,14 +2356,21 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "axis": "output",
       "difficulty": 2,
       "text": "Make a diptych: two frames that only work together.",
-      "why": "Pairs create meaning through comparison."
+      "why": "Pairs create meaning through comparison.",
+      "tags": [
+        "set"
+      ]
     },
     {
       "id": "ou.five-set",
       "axis": "output",
       "difficulty": 2,
       "text": "End with a set of exactly five images that belong together.",
-      "why": "Editing down to a set is where you find out what you were really photographing."
+      "why": "Editing down to a set is where you find out what you were really photographing.",
+      "tags": [
+        "set",
+        "needs-five"
+      ]
     },
     {
       "id": "ou.grain",
@@ -2222,10 +2399,1162 @@ window.STOPDOWN_LIBRARY = /*BEGIN-JSON*/{
       "text": "Grade to a two-colour palette: {palette}.",
       "why": "A limited palette unifies a set and sets its mood.",
       "tags": [
-        "colour-dependent"
+        "colour-dependent",
+        "hue-grade"
       ],
       "excludes": [
         "bw"
+      ]
+    },
+    {
+      "id": "lens.extremes",
+      "axis": "lens",
+      "difficulty": 1,
+      "text": "Only your widest and longest focal lengths, nothing in between.",
+      "why": "Working at the extremes shows you what each end of the zoom is really for.",
+      "requires": [
+        "zoom"
+      ]
+    },
+    {
+      "id": "lens.never-repeat",
+      "axis": "lens",
+      "difficulty": 2,
+      "text": "Change the focal length after every frame, and never use the same one twice.",
+      "why": "It breaks the habit of leaving the zoom wherever it happened to be.",
+      "tags": [
+        "zoom-action"
+      ],
+      "requires": [
+        "zoom"
+      ]
+    },
+    {
+      "id": "lens.compare",
+      "axis": "lens",
+      "difficulty": 2,
+      "text": "Photograph one subject at {focal}mm, then at your widest, keeping it the same size in the frame.",
+      "why": "Moving to keep the subject the same size shows how focal length changes the background.",
+      "tags": [
+        "moving-feet",
+        "multi-frame"
+      ],
+      "requires": [
+        "zoom"
+      ]
+    },
+    {
+      "id": "lens.fake-fifty",
+      "axis": "lens",
+      "difficulty": 1,
+      "text": "Pretend you own a 50mm prime: set the zoom as close to 50mm as it goes and walk.",
+      "why": "A 'normal' view with no zoom to lean on makes you move your feet and choose your distance.",
+      "tags": [
+        "single-focal",
+        "moving-feet"
+      ],
+      "requires": [
+        "zoom"
+      ]
+    },
+    {
+      "id": "lens.step-back",
+      "axis": "lens",
+      "difficulty": 2,
+      "text": "Make a wide scene with your longest focal length by stepping far back.",
+      "why": "Distance plus a long lens flattens a scene into layers instead of stretching it out.",
+      "tags": [
+        "tele",
+        "distance",
+        "moving-feet"
+      ],
+      "excludes": [
+        "close-up"
+      ],
+      "requires": [
+        "tele"
+      ],
+      "place": [
+        "outdoor"
+      ]
+    },
+    {
+      "id": "ap.two-stops",
+      "axis": "aperture",
+      "difficulty": 1,
+      "text": "Two apertures only, wide open and f/11, alternating every frame.",
+      "why": "Switching back and forth makes the change in depth of field impossible to ignore.",
+      "tags": [
+        "fixed-aperture",
+        "varies-exposure"
+      ]
+    },
+    {
+      "id": "ap.mush-bg",
+      "axis": "aperture",
+      "difficulty": 2,
+      "text": "The background must be an unrecognisable blur.",
+      "why": "Aperture, subject distance and background distance all matter. You'll learn to use all three.",
+      "tags": [
+        "defocus-bg"
+      ],
+      "excludes": [
+        "deep-focus",
+        "narrow-aperture",
+        "bg-sharp"
+      ]
+    },
+    {
+      "id": "ap.f56",
+      "axis": "aperture",
+      "difficulty": 1,
+      "text": "f/5.6 for the whole session.",
+      "why": "A middle aperture is forgiving, which moves your attention from settings to seeing.",
+      "tags": [
+        "fixed-aperture"
+      ]
+    },
+    {
+      "id": "ap.two-sharp",
+      "axis": "aperture",
+      "difficulty": 3,
+      "text": "Two subjects at different distances, both sharp.",
+      "why": "It takes a small aperture, careful focus placement or a viewpoint that lines them up.",
+      "tags": [
+        "deep-focus",
+        "two-subjects",
+        "fixed-aperture"
+      ],
+      "excludes": [
+        "wide-aperture",
+        "defocus",
+        "defocus-bg"
+      ]
+    },
+    {
+      "id": "ss.fifteenth",
+      "axis": "shutter",
+      "difficulty": 2,
+      "text": "Handheld at exactly 1/15s, with no camera shake or motion blur.",
+      "why": "Bracing, breathing out and a gentle shutter press matter more than you'd think.",
+      "tags": [
+        "slow-shutter",
+        "handheld",
+        "sharp-all"
+      ],
+      "excludes": [
+        "fast-shutter",
+        "motion-blur",
+        "on-tripod"
+      ]
+    },
+    {
+      "id": "ss.wind",
+      "axis": "shutter",
+      "difficulty": 2,
+      "text": "Photograph the wind: blurred leaves or grass against sharp ground.",
+      "why": "A steady stance and around 1/4s to 1s separates what moves from what doesn't.",
+      "tags": [
+        "slow-shutter",
+        "motion-blur"
+      ],
+      "excludes": [
+        "fast-shutter",
+        "freeze",
+        "sharp-all"
+      ],
+      "place": [
+        "outdoor"
+      ]
+    },
+    {
+      "id": "ss.enter-frame",
+      "axis": "shutter",
+      "difficulty": 2,
+      "text": "Compose an empty frame and wait for something to move into it.",
+      "why": "Set the stage first and wait for the actor. Many classic street pictures happen this way."
+    },
+    {
+      "id": "ss.burst",
+      "axis": "shutter",
+      "difficulty": 1,
+      "text": "Burst mode only: shoot sequences of five and keep one from each.",
+      "why": "Bursts let you pick the exact moment, and show how much changes in a fraction of a second.",
+      "tags": [
+        "burst",
+        "multi-frame",
+        "many-frames"
+      ],
+      "excludes": [
+        "few-frames",
+        "slow-pace",
+        "long-exposure"
+      ]
+    },
+    {
+      "id": "ss.light-painting",
+      "axis": "shutter",
+      "difficulty": 3,
+      "text": "Light painting: draw with a moving torch or lamp during a long exposure.",
+      "why": "You become the light source, so every stroke and its speed is a decision.",
+      "tags": [
+        "slow-shutter",
+        "long-exposure",
+        "on-tripod",
+        "light-painting"
+      ],
+      "excludes": [
+        "fast-shutter",
+        "freeze",
+        "sharp-all",
+        "fixed-light"
+      ],
+      "requires": [
+        "tripod"
+      ],
+      "time": [
+        "night"
+      ]
+    },
+    {
+      "id": "fo.reflections",
+      "axis": "focus",
+      "difficulty": 2,
+      "text": "Focus on reflections, not on the surface they're in.",
+      "why": "A reflection sits at the distance of the reflected object, not the glass. Autofocus often gets this wrong."
+    },
+    {
+      "id": "fo.rain-window",
+      "axis": "focus",
+      "difficulty": 2,
+      "text": "Shoot through rain on a window and focus on the drops.",
+      "why": "Focusing on what's closest turns the world behind into soft colour.",
+      "tags": [
+        "rain",
+        "close-up"
+      ],
+      "excludes": [
+        "sun",
+        "distance",
+        "bg-sharp"
+      ],
+      "place": [
+        "indoor"
+      ]
+    },
+    {
+      "id": "fo.trap",
+      "axis": "focus",
+      "difficulty": 2,
+      "text": "Prefocus on a spot and wait for something to arrive there.",
+      "why": "Trap focus means you're ready before the moment instead of chasing it."
+    },
+    {
+      "id": "fo.just-behind",
+      "axis": "focus",
+      "difficulty": 3,
+      "text": "Put the focus slightly behind your subject, on purpose.",
+      "why": "A deliberate near-miss looks dreamy rather than wrong, and shows how thin the focus plane is.",
+      "tags": [
+        "soft-subject"
+      ],
+      "excludes": [
+        "deep-focus",
+        "sharp-all"
+      ]
+    },
+    {
+      "id": "ex.sky",
+      "axis": "exposure",
+      "difficulty": 2,
+      "text": "Expose for the sky in every frame.",
+      "why": "Protecting the sky usually darkens the land: a quick route to moody, graphic pictures.",
+      "tags": [
+        "sky"
+      ],
+      "excludes": [
+        "high-key",
+        "looking-down"
+      ],
+      "place": [
+        "outdoor"
+      ]
+    },
+    {
+      "id": "ex.always-comp",
+      "axis": "exposure",
+      "difficulty": 2,
+      "text": "Use exposure compensation on every frame. Never leave it at 0.",
+      "why": "The meter aims for average grey. Choosing brighter or darker each time makes you read the light."
+    },
+    {
+      "id": "ex.shutter-250",
+      "axis": "exposure",
+      "difficulty": 1,
+      "text": "Shutter priority at 1/250 for the whole session.",
+      "why": "A fixed, quick shutter frees you to think about timing while the camera handles the aperture.",
+      "tags": [
+        "fixed-shutter"
+      ],
+      "excludes": [
+        "slow-shutter",
+        "fast-shutter",
+        "fixed-aperture",
+        "varied-shutter",
+        "motion-blur",
+        "long-exposure",
+        "aperture-priority",
+        "varies-exposure"
+      ]
+    },
+    {
+      "id": "ex.choose-loss",
+      "axis": "exposure",
+      "difficulty": 2,
+      "text": "Only shoot scenes too contrasty for your camera, and decide what to lose.",
+      "why": "Choosing between blown highlights and black shadows is a creative decision, not a failure.",
+      "tags": [
+        "high-contrast",
+        "hard-light"
+      ],
+      "excludes": [
+        "soft-light"
+      ]
+    },
+    {
+      "id": "ex.base-dusk",
+      "axis": "exposure",
+      "difficulty": 2,
+      "text": "Base ISO, handheld, after sunset.",
+      "why": "It forces wide apertures, slow shutters and a steady grip, or finding the brightest light around.",
+      "tags": [
+        "base-iso",
+        "handheld"
+      ],
+      "excludes": [
+        "high-iso",
+        "on-tripod",
+        "narrow-aperture",
+        "fixed-shutter"
+      ],
+      "time": [
+        "golden",
+        "night"
+      ]
+    },
+    {
+      "id": "di.left",
+      "axis": "direction",
+      "difficulty": 1,
+      "text": "Light falling from the left only.",
+      "why": "Committing to one side makes you turn the subject, or yourself, until the light works.",
+      "tags": [
+        "sidelight"
+      ],
+      "excludes": [
+        "frontlight"
+      ]
+    },
+    {
+      "id": "di.gap",
+      "axis": "direction",
+      "difficulty": 2,
+      "text": "Light coming through a gap: a doorway, an alley, blinds.",
+      "why": "Narrow light makes natural spotlights and strong shapes.",
+      "tags": [
+        "hard-light"
+      ],
+      "excludes": [
+        "soft-light"
+      ]
+    },
+    {
+      "id": "di.sun-behind",
+      "axis": "direction",
+      "difficulty": 2,
+      "text": "Sun directly behind you, with your own shadow in the frame.",
+      "why": "Flat front light plus your shadow turns a classic 'mistake' into a self-portrait.",
+      "tags": [
+        "frontlight",
+        "sun",
+        "shadow"
+      ],
+      "excludes": [
+        "backlight",
+        "silhouette",
+        "rain"
+      ],
+      "time": [
+        "day",
+        "golden"
+      ],
+      "place": [
+        "outdoor"
+      ]
+    },
+    {
+      "id": "di.coloured-bounce",
+      "axis": "direction",
+      "difficulty": 2,
+      "text": "Light bounced off a coloured wall onto your subject.",
+      "why": "Reflected light takes on the colour of the surface, like a free coloured gel.",
+      "tags": [
+        "colour-dependent",
+        "soft-light",
+        "coloured-light"
+      ],
+      "excludes": [
+        "bw",
+        "hard-light"
+      ]
+    },
+    {
+      "id": "so.streetlights",
+      "axis": "source",
+      "difficulty": 1,
+      "text": "Streetlights only.",
+      "why": "Old orange lamps and new white LEDs give very different moods, and both say 'night'.",
+      "tags": [
+        "artificial-only",
+        "ambient-only",
+        "fixed-light"
+      ],
+      "excludes": [
+        "natural-only",
+        "flash",
+        "sun"
+      ],
+      "time": [
+        "night"
+      ],
+      "place": [
+        "outdoor"
+      ]
+    },
+    {
+      "id": "so.screen",
+      "axis": "source",
+      "difficulty": 2,
+      "text": "Screen light only: a phone, laptop or TV.",
+      "why": "Screens are soft, cool and close: good for intimate, moody portraits and still lifes.",
+      "tags": [
+        "artificial-only",
+        "ambient-only"
+      ],
+      "excludes": [
+        "natural-only",
+        "flash",
+        "fast-shutter",
+        "freeze",
+        "sun"
+      ],
+      "place": [
+        "indoor"
+      ]
+    },
+    {
+      "id": "so.headlights",
+      "axis": "source",
+      "difficulty": 2,
+      "text": "Car headlights only. Stay well off the road.",
+      "why": "Hard, low, moving light makes long shadows and drama out of ordinary scenes.",
+      "tags": [
+        "artificial-only",
+        "ambient-only",
+        "hard-light",
+        "fixed-light"
+      ],
+      "excludes": [
+        "natural-only",
+        "flash",
+        "soft-light",
+        "sun"
+      ],
+      "time": [
+        "night"
+      ],
+      "place": [
+        "outdoor"
+      ]
+    },
+    {
+      "id": "so.shopfront",
+      "axis": "source",
+      "difficulty": 2,
+      "text": "Shop windows at night as your only light.",
+      "why": "Shopfronts are big, soft light boxes that also frame whatever is inside them.",
+      "tags": [
+        "artificial-only",
+        "ambient-only",
+        "fixed-light"
+      ],
+      "excludes": [
+        "natural-only",
+        "flash",
+        "sun"
+      ],
+      "time": [
+        "night"
+      ],
+      "place": [
+        "outdoor"
+      ]
+    },
+    {
+      "id": "so.overcast",
+      "axis": "source",
+      "difficulty": 1,
+      "text": "Overcast only: find drama in flat light.",
+      "why": "With no shadows to lean on, shape, colour and expression have to carry the picture.",
+      "tags": [
+        "soft-light",
+        "natural-only",
+        "overcast",
+        "ambient-only",
+        "fixed-light"
+      ],
+      "excludes": [
+        "hard-light",
+        "sun",
+        "flash",
+        "bright-source",
+        "artificial-only"
+      ],
+      "time": [
+        "day"
+      ],
+      "place": [
+        "outdoor"
+      ]
+    },
+    {
+      "id": "fl.colour-bounce",
+      "axis": "flash",
+      "difficulty": 2,
+      "text": "Bounce the flash off a coloured surface.",
+      "why": "The bounce surface becomes the light, and its colour comes with it.",
+      "tags": [
+        "flash",
+        "colour-dependent",
+        "soft-light",
+        "coloured-light"
+      ],
+      "excludes": [
+        "bw",
+        "hard-light",
+        "natural-only"
+      ],
+      "requires": [
+        "flash"
+      ],
+      "place": [
+        "indoor"
+      ]
+    },
+    {
+      "id": "fl.diffuse",
+      "axis": "flash",
+      "difficulty": 2,
+      "text": "Fire the flash through something: frosted glass, paper or fabric.",
+      "why": "A diffuser between flash and subject turns a harsh point into soft light.",
+      "tags": [
+        "flash",
+        "soft-light"
+      ],
+      "excludes": [
+        "hard-light",
+        "natural-only"
+      ],
+      "requires": [
+        "flash"
+      ]
+    },
+    {
+      "id": "fl.two-sources",
+      "axis": "flash",
+      "difficulty": 3,
+      "text": "Two light sources: a flash plus a lamp, balanced against each other.",
+      "why": "Balancing flash power against a continuous light is the core skill of mixing light.",
+      "tags": [
+        "flash",
+        "mixed-light"
+      ],
+      "excludes": [
+        "natural-only",
+        "single-source"
+      ],
+      "requires": [
+        "flash"
+      ],
+      "place": [
+        "indoor"
+      ]
+    },
+    {
+      "id": "fl.freeze-drops",
+      "axis": "flash",
+      "difficulty": 1,
+      "text": "Use flash in daylight to freeze water or raindrops.",
+      "why": "A short flash burst freezes motion better than the shutter alone.",
+      "tags": [
+        "flash",
+        "freeze"
+      ],
+      "excludes": [
+        "slow-shutter",
+        "motion-blur",
+        "natural-only"
+      ],
+      "requires": [
+        "flash"
+      ],
+      "time": [
+        "day"
+      ]
+    },
+    {
+      "id": "fl.zoom-flash",
+      "axis": "flash",
+      "difficulty": 2,
+      "text": "Slow shutter plus flash, zooming during the exposure.",
+      "why": "The flash freezes the subject while the zoom streaks everything around it.",
+      "tags": [
+        "flash",
+        "slow-shutter",
+        "motion-blur",
+        "zoom-action"
+      ],
+      "excludes": [
+        "fast-shutter",
+        "freeze",
+        "natural-only",
+        "single-focal"
+      ],
+      "requires": [
+        "flash",
+        "zoom"
+      ]
+    },
+    {
+      "id": "sp.horizontals",
+      "axis": "shape",
+      "difficulty": 1,
+      "text": "Only horizontal lines. Keep them perfectly level.",
+      "why": "Horizontals feel calm and wide. A level camera keeps them that way.",
+      "tags": [
+        "level-lines"
+      ],
+      "excludes": [
+        "tilted"
+      ]
+    },
+    {
+      "id": "sp.negative",
+      "axis": "shape",
+      "difficulty": 2,
+      "text": "Negative shapes: photograph the gaps between things.",
+      "why": "Seeing the spaces instead of the objects is a classic drawing exercise that works for cameras too."
+    },
+    {
+      "id": "sp.three-sizes",
+      "axis": "shape",
+      "difficulty": 2,
+      "text": "One shape repeated at three different sizes.",
+      "why": "Repetition at different scales creates depth and rhythm at the same time."
+    },
+    {
+      "id": "sp.converge-out",
+      "axis": "shape",
+      "difficulty": 2,
+      "text": "Lines that converge on a point outside the frame.",
+      "why": "A vanishing point outside the frame pulls the eye out of the picture and makes it feel bigger."
+    },
+    {
+      "id": "co.no-thirds",
+      "axis": "composition",
+      "difficulty": 1,
+      "text": "Nothing important on the rule-of-thirds lines.",
+      "why": "Breaking a habit makes you find your own sense of balance."
+    },
+    {
+      "id": "co.opposite-corners",
+      "axis": "composition",
+      "difficulty": 2,
+      "text": "Two subjects in opposite corners.",
+      "why": "Diagonal tension between two points makes the eye travel across the frame.",
+      "tags": [
+        "two-subjects",
+        "off-center"
+      ],
+      "excludes": [
+        "centered"
+      ]
+    },
+    {
+      "id": "co.half-foreground",
+      "axis": "composition",
+      "difficulty": 2,
+      "text": "The foreground takes up half the frame.",
+      "why": "A strong foreground gives depth and a way into the picture.",
+      "tags": [
+        "layers"
+      ],
+      "excludes": [
+        "filled-frame"
+      ]
+    },
+    {
+      "id": "co.odd",
+      "axis": "composition",
+      "difficulty": 2,
+      "text": "An odd number of main elements in every frame: one, three or five.",
+      "why": "Odd numbers feel more natural and less staged than pairs.",
+      "tags": [
+        "odd-count"
+      ],
+      "excludes": [
+        "two-subjects",
+        "pairs"
+      ]
+    },
+    {
+      "id": "vp.arms-up",
+      "axis": "viewpoint",
+      "difficulty": 1,
+      "text": "Arms raised, camera above your head.",
+      "why": "A few extra feet of height clears crowds and changes the geometry of a scene.",
+      "tags": [
+        "high-angle"
+      ],
+      "excludes": [
+        "low-angle"
+      ]
+    },
+    {
+      "id": "vp.on-back",
+      "axis": "viewpoint",
+      "difficulty": 2,
+      "text": "Lie on your back and shoot straight up.",
+      "why": "Looking up turns ceilings, trees and buildings into abstract patterns.",
+      "tags": [
+        "low-angle",
+        "steep-angle"
+      ],
+      "excludes": [
+        "high-angle"
+      ]
+    },
+    {
+      "id": "vp.inside-out",
+      "axis": "viewpoint",
+      "difficulty": 2,
+      "text": "From inside looking out: a car, a doorway, a tunnel.",
+      "why": "The dark edges of the inside make a natural frame for the light outside."
+    },
+    {
+      "id": "vp.three-heights",
+      "axis": "viewpoint",
+      "difficulty": 2,
+      "text": "One scene from three heights: knee, eye and above your head.",
+      "why": "Small changes in height change what overlaps what. You'll see a different picture each time.",
+      "tags": [
+        "multi-frame"
+      ]
+    },
+    {
+      "id": "su.stairs",
+      "axis": "subject",
+      "difficulty": 1,
+      "text": "Stairs and steps.",
+      "why": "Stairs are rhythm, perspective and light in one subject.",
+      "tags": [
+        "large-subject"
+      ]
+    },
+    {
+      "id": "su.wires",
+      "axis": "subject",
+      "difficulty": 1,
+      "text": "Wires, cables and poles.",
+      "why": "Overlooked lines in the sky make strong graphic pictures."
+    },
+    {
+      "id": "su.bicycles",
+      "axis": "subject",
+      "difficulty": 1,
+      "text": "Bicycles.",
+      "why": "A familiar object with lots of shapes, angles and details to work with.",
+      "tags": [
+        "large-subject"
+      ]
+    },
+    {
+      "id": "su.broken",
+      "axis": "subject",
+      "difficulty": 2,
+      "text": "Something broken.",
+      "why": "Damage and decay have texture and stories built in."
+    },
+    {
+      "id": "su.handwritten",
+      "axis": "subject",
+      "difficulty": 2,
+      "text": "Handwritten signs.",
+      "why": "Handwriting puts a person in the picture without showing them."
+    },
+    {
+      "id": "su.pairs",
+      "axis": "subject",
+      "difficulty": 2,
+      "text": "Things in pairs.",
+      "why": "Pairs invite comparison: what's the same and what's different?",
+      "tags": [
+        "pairs"
+      ]
+    },
+    {
+      "id": "su.animals",
+      "axis": "subject",
+      "difficulty": 2,
+      "text": "Animals, or the traces they leave.",
+      "why": "Animals don't take direction, so you learn patience and anticipation."
+    },
+    {
+      "id": "su.material",
+      "axis": "subject",
+      "difficulty": 1,
+      "text": "Every frame must include {material}.",
+      "why": "Hunting for one material makes you look at surfaces you normally walk past."
+    },
+    {
+      "id": "cn.smell",
+      "axis": "concept",
+      "difficulty": 2,
+      "text": "Photograph a smell.",
+      "why": "Showing something invisible makes you think about cause and effect."
+    },
+    {
+      "id": "cn.album",
+      "axis": "concept",
+      "difficulty": 2,
+      "text": "Make a photo that would work as an album cover.",
+      "why": "Album covers are square and leave room for a title: design, not just a snapshot.",
+      "tags": [
+        "square"
+      ],
+      "excludes": [
+        "vertical",
+        "pano",
+        "crop-45",
+        "no-crop"
+      ]
+    },
+    {
+      "id": "cn.edge-town",
+      "axis": "concept",
+      "difficulty": 2,
+      "text": "The edge of town.",
+      "why": "Edges are where places change character. They're good for in-between pictures.",
+      "place": [
+        "outdoor"
+      ],
+      "tags": [
+        "large-subject"
+      ]
+    },
+    {
+      "id": "cn.too-much",
+      "axis": "concept",
+      "difficulty": 2,
+      "text": "Too much.",
+      "why": "Excess, clutter or abundance: how do you show 'more than enough' clearly?"
+    },
+    {
+      "id": "cn.only-you",
+      "axis": "concept",
+      "difficulty": 2,
+      "text": "Something only you would notice.",
+      "why": "Personal observations are what make a photographer's work recognisable."
+    },
+    {
+      "id": "li.no-phone",
+      "axis": "limits",
+      "difficulty": 1,
+      "text": "Leave your phone at home.",
+      "why": "No maps, no messages, no second camera: just you, the camera and what's in front of you.",
+      "tags": [
+        "no-phone"
+      ],
+      "excludes": [
+        "phone"
+      ]
+    },
+    {
+      "id": "li.slow-pace",
+      "axis": "limits",
+      "difficulty": 2,
+      "text": "One frame every 10 minutes, no more.",
+      "why": "Rationing time makes you look much longer before you press the shutter.",
+      "tags": [
+        "slow-pace"
+      ],
+      "excludes": [
+        "burst",
+        "multi-frame"
+      ]
+    },
+    {
+      "id": "li.one-street",
+      "axis": "limits",
+      "difficulty": 2,
+      "text": "One street, end to end.",
+      "why": "One street, walked slowly, holds more pictures than you'd expect.",
+      "tags": [
+        "moving-feet",
+        "location-limit",
+        "large-subject"
+      ],
+      "place": [
+        "outdoor"
+      ]
+    },
+    {
+      "id": "li.rain",
+      "axis": "limits",
+      "difficulty": 2,
+      "text": "Shoot in the rain.",
+      "why": "Rain brings reflections, umbrellas, shine and mood. Protect the camera and go.",
+      "tags": [
+        "rain"
+      ],
+      "excludes": [
+        "sun"
+      ],
+      "place": [
+        "outdoor"
+      ]
+    },
+    {
+      "id": "li.three-set",
+      "axis": "limits",
+      "difficulty": 2,
+      "text": "Three frames, and all three must work as a set.",
+      "why": "Planning a set before shooting is how picture stories begin.",
+      "tags": [
+        "few-frames",
+        "set",
+        "three-only"
+      ],
+      "excludes": [
+        "burst",
+        "needs-five",
+        "multi-frame"
+      ]
+    },
+    {
+      "id": "ou.crop45",
+      "axis": "output",
+      "difficulty": 1,
+      "text": "4:5 portrait crop only.",
+      "why": "The tall 4:5 frame suits people and phones, and makes you compose upward.",
+      "tags": [
+        "crop-45"
+      ],
+      "excludes": [
+        "square",
+        "pano"
+      ]
+    },
+    {
+      "id": "ou.mono-tone",
+      "axis": "output",
+      "difficulty": 1,
+      "text": "Tone everything with a single colour: sepia, blue or green.",
+      "why": "Toning keeps the simplicity of black and white with a mood of its own.",
+      "tags": [
+        "monotone"
+      ],
+      "excludes": [
+        "colour-dependent"
+      ]
+    },
+    {
+      "id": "ou.two-sliders",
+      "axis": "output",
+      "difficulty": 2,
+      "text": "Edit with white balance and exposure only.",
+      "why": "Getting those two right is most of what editing is."
+    },
+    {
+      "id": "ou.triptych",
+      "axis": "output",
+      "difficulty": 2,
+      "text": "Make a triptych: three frames that only work together.",
+      "why": "Three images can show sequence, contrast or a whole place.",
+      "tags": [
+        "set"
+      ]
+    },
+    {
+      "id": "ou.one-winner",
+      "axis": "output",
+      "difficulty": 2,
+      "text": "Pick one winner before editing anything, and edit only that one.",
+      "why": "Choosing first is the hardest and most useful editing skill.",
+      "tags": [
+        "single-winner"
+      ],
+      "excludes": [
+        "set",
+        "worst-frame"
+      ]
+    },
+    {
+      "id": "ct.complementary",
+      "axis": "colour",
+      "difficulty": 1,
+      "text": "Complementary colours only: blue with orange, or red with green.",
+      "why": "Opposites on the colour wheel make each other look stronger.",
+      "tags": [
+        "colour-dependent",
+        "hue-rule"
+      ],
+      "excludes": [
+        "bw",
+        "monotone",
+        "hue-subject",
+        "hue-grade",
+        "hue-cast"
+      ]
+    },
+    {
+      "id": "ct.pastel",
+      "axis": "colour",
+      "difficulty": 1,
+      "text": "Pastels only.",
+      "why": "Soft, light colours need bright, gentle exposure and careful framing.",
+      "tags": [
+        "colour-dependent",
+        "pastel"
+      ],
+      "excludes": [
+        "bw",
+        "monotone",
+        "saturated",
+        "low-key"
+      ]
+    },
+    {
+      "id": "ct.one-pop",
+      "axis": "colour",
+      "difficulty": 2,
+      "text": "One saturated colour in an otherwise grey frame.",
+      "why": "A single strong colour against neutral surroundings is an instant point of focus.",
+      "tags": [
+        "colour-dependent",
+        "saturated",
+        "grey-frame"
+      ],
+      "excludes": [
+        "bw",
+        "monotone",
+        "hue-grade",
+        "pastel",
+        "coloured-light",
+        "hue-cast"
+      ]
+    },
+    {
+      "id": "ct.warm",
+      "axis": "colour",
+      "difficulty": 1,
+      "text": "Warm colours only: reds, oranges and yellows.",
+      "why": "Limiting the palette gives a set of pictures a clear mood.",
+      "tags": [
+        "colour-dependent",
+        "hue-rule",
+        "single-temperature"
+      ],
+      "excludes": [
+        "bw",
+        "monotone",
+        "hue-subject",
+        "hue-grade",
+        "hue-cast",
+        "warm-cool"
+      ]
+    },
+    {
+      "id": "ct.cool",
+      "axis": "colour",
+      "difficulty": 1,
+      "text": "Cool colours only: blues, greens and purples.",
+      "why": "Cool palettes feel calm, distant or cold. It's a strong way to set a mood.",
+      "tags": [
+        "colour-dependent",
+        "hue-rule",
+        "single-temperature",
+        "cool-palette"
+      ],
+      "excludes": [
+        "bw",
+        "monotone",
+        "hue-subject",
+        "hue-grade",
+        "hue-cast",
+        "warm-cool",
+        "warm-light"
+      ]
+    },
+    {
+      "id": "ct.black-white",
+      "axis": "colour",
+      "difficulty": 1,
+      "text": "Black on white, or white on black.",
+      "why": "Pure tonal contrast strips a scene to shape and line.",
+      "tags": [
+        "tonal-only"
+      ],
+      "excludes": [
+        "colour-dependent"
+      ]
+    },
+    {
+      "id": "ct.analogous",
+      "axis": "colour",
+      "difficulty": 2,
+      "text": "Neighbouring colours only: next to each other on the colour wheel.",
+      "why": "Analogous colours feel harmonious and quiet: the opposite of a clash.",
+      "tags": [
+        "colour-dependent",
+        "hue-rule",
+        "single-temperature"
+      ],
+      "excludes": [
+        "bw",
+        "monotone",
+        "hue-subject",
+        "hue-grade",
+        "hue-cast",
+        "warm-cool"
+      ]
+    },
+    {
+      "id": "ct.new-colour",
+      "axis": "colour",
+      "difficulty": 2,
+      "text": "A colour you've never photographed on purpose.",
+      "why": "Your eye has habits too. This one breaks them.",
+      "tags": [
+        "colour-dependent",
+        "hue-rule"
+      ],
+      "excludes": [
+        "bw",
+        "monotone",
+        "hue-subject",
+        "hue-grade",
+        "hue-cast"
       ]
     }
   ]

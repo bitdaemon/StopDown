@@ -13,7 +13,7 @@
     "plusminus.circle": "contrast", "sun.max": "sun", "lightbulb": "lightbulb", "bolt": "zap",
     "triangle": "triangle", "square.grid.3x3": "grid-3x3", "eye": "eye",
     "person.crop.rectangle": "square-user", "sparkles": "sparkles", "hourglass": "hourglass",
-    "photo": "image", "viewfinder": "scan"
+    "photo": "image", "viewfinder": "scan", "paintpalette": "palette"
   };
 
   function esc(s) {

@@ -33,7 +33,8 @@ function assertValidDeal(lib, gen, cards) {
 
 test("library loads and every constraint references a known axis", () => {
   const lib = loadLibrary();
-  assert.equal(lib.constraints.length, 167);
+  assert.equal(lib.constraints.length, 247);
+  assert.equal(lib.axes.length, 16);
   lib.constraints.forEach(c => assert.ok(lib.axisById[c.axis], c.id));
 });
 
@@ -145,9 +146,9 @@ test("pool stats match the Python report for the starter kit", async () => {
   const lib = loadLibrary();
   const settings = Object.assign(Core.defaultSettings(), { cardCount: 3, difficulty: "balanced" });
   const stats = await new Core.Generator(lib, starter(), settings, []).poolStats();
-  assert.equal(stats.usable, 145);
-  assert.equal(stats.combinations, 363717);
-  assert.equal(stats.withSlots, 1459026);
+  assert.equal(stats.usable, 218);
+  assert.equal(stats.combinations, 1225236);
+  assert.equal(stats.withSlots, 3835008);
 });
 
 test("settings and gear normalisation tolerate old or broken data", () => {
@@ -157,4 +158,73 @@ test("settings and gear normalisation tolerate old or broken data", () => {
   const g = Core.normalizeGear({ lenses: [{ name: "35mm", minFocal: "35", maxFocal: 35 }], accessories: ["tripod", "laser"] });
   assert.equal(g.lenses[0].minFocal, 35);
   assert.deepEqual(g.accessories, ["tripod"]);
+});
+
+// ---- Contradiction audit -------------------------------------------------------
+// Tag pairs that mean opposite things. No card carrying the first may ever share a
+// hand with a card carrying the second. Add a row here when you add a new kind of tag.
+const OPPOSITES = `
+  slow-shutter/fast-shutter motion-blur/freeze wide-aperture/narrow-aperture wide-aperture/deep-focus
+  defocus/deep-focus defocus-bg/bg-sharp defocus-bg/deep-focus high-key/low-key high-key/silhouette
+  silhouette/frontlight silhouette/sidelight silhouette/flash frontlight/backlight hard-light/soft-light
+  flash/natural-only flash/ambient-only artificial-only/natural-only artificial-only/sun overcast/sun
+  overcast/bright-source sun/rain bw/colour-dependent monotone/colour-dependent tonal-only/colour-dependent
+  people/no-people low-angle/high-angle close-up/distance centered/off-center filled-frame/negative-space
+  vertical/square vertical/pano square/pano crop-45/square crop-45/pano square/no-crop base-iso/high-iso
+  tilted/level-lines single-focal/zoom-action on-tripod/handheld burst/few-frames burst/slow-pace
+  set/single-winner single-winner/worst-frame three-only/needs-five two-subjects/odd-count pairs/odd-count
+  hue-rule/hue-subject hue-rule/hue-grade hue-rule/hue-cast hue-subject/hue-grade pastel/saturated
+  single-temperature/warm-cool coloured-light/grey-frame hue-cast/grey-frame warm-light/cool-palette phone/no-phone moving-feet/one-spot
+  fixed-shutter/slow-shutter fixed-shutter/fast-shutter fixed-shutter/fixed-aperture
+  fixed-shutter/varied-shutter fixed-shutter/motion-blur fixed-shutter/aperture-priority
+  light-painting/fixed-light multi-frame/single-take multi-frame/three-only many-frames/few-frames
+  multi-frame/slow-pace large-subject/hand-size hand-size/hyperfocal steep-angle/vertical-lines
+  varies-exposure/fixed-shutter aperture-priority/fixed-shutter worst-frame/single-winner`.trim().split(/\s+/).map(p => p.split("/"));
+
+test("every opposite tag pair is used by the library and can never meet in a hand", () => {
+  const lib = loadLibrary();
+  const tagged = t => lib.constraints.filter(c => c.tags.includes(t));
+  const clashes = [];
+  for (const [x, y] of OPPOSITES) {
+    assert.ok(tagged(x).length && tagged(y).length, `tag pair ${x}/${y} is used`);
+    for (const a of tagged(x)) for (const b of tagged(y)) {
+      if (a.id !== b.id && Core.Generator.compatible(a, b)) clashes.push(`${x}/${y}: ${a.id} + ${b.id}`);
+    }
+  }
+  assert.deepEqual(clashes, []);
+});
+
+test("every exclude names a tag that some card actually has", () => {
+  const lib = loadLibrary();
+  const tags = new Set(lib.constraints.flatMap(c => c.tags));
+  const unknown = lib.constraints.flatMap(c => c.excludes.filter(t => !tags.has(t)).map(t => c.id + " -> " + t));
+  assert.deepEqual(unknown, []);
+});
+
+test("cards limited to different times or places are never compatible", () => {
+  const lib = loadLibrary();
+  const apart = (x, y) => x && y && !x.some(v => y.includes(v));
+  for (const a of lib.constraints) for (const b of lib.constraints) {
+    if (apart(a.time, b.time) || apart(a.place, b.place)) {
+      assert.equal(Core.Generator.compatible(a, b), false, `${a.id} + ${b.id}`);
+    }
+  }
+});
+
+test("thousands of random 10-card hands contain no contradictions", () => {
+  const lib = loadLibrary();
+  const contexts = [["anytime", "anywhere"], ["day", "outdoor"], ["night", "outdoor"], ["golden", "indoor"]];
+  for (const gear of [starter(), enthusiast()]) {
+    for (const difficulty of ["relaxed", "balanced", "tough"]) {
+      for (const [time, place] of contexts) {
+        const settings = Object.assign(Core.defaultSettings(), { cardCount: 10, difficulty, time, place });
+        for (let i = 0; i < 60; i++) {
+          const gen = new Core.Generator(lib, gear, settings, []);
+          const r = gen.deal([]);
+          assertValidDeal(lib, gen, r.cards);
+          for (let j = 0; j < 3; j++) assertValidDeal(lib, gen, gen.reroll(j % r.cards.length, r.cards).cards);
+        }
+      }
+    }
+  }
 });

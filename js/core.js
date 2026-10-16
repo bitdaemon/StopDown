@@ -263,6 +263,15 @@
     var i;
     for (i = 0; i < a.excludes.length; i++) if (b.tags.indexOf(a.excludes[i]) >= 0) return false;
     for (i = 0; i < b.excludes.length; i++) if (a.tags.indexOf(b.excludes[i]) >= 0) return false;
+    // Cards limited to different times of day or different places can't share a hand
+    // (e.g. "window light only" is indoors, "stay within N metres" is outdoors).
+    if (disjoint(a.time, b.time) || disjoint(a.place, b.place)) return false;
+    return true;
+  }
+
+  function disjoint(x, y) {
+    if (!x || !y || !x.length || !y.length) return false;
+    for (var i = 0; i < x.length; i++) if (y.indexOf(x[i]) >= 0) return false;
     return true;
   }
 

@@ -22,7 +22,7 @@ So I made something that knows what's in my bag. If you don't own a fast lens, y
 
 ## Features
 
-- **167 constraints across 15 categories**, grouped into Camera & settings, Light, Composition, Subject & idea, and Limits & output.
+- **247 constraints across 16 categories**, grouped into Camera & settings, Light, Composition, Subject & idea, and Limits & output.
 - **Gear-aware.** Tell it your sensor size, lenses and accessories (tripod, flash, ND, polariser and so on), and it only deals cards you can actually do. Cards that ask for a focal length only use lengths you own.
 - **Type your lens the way it's printed on it.** "AF-S Nikkor 35mm 1:1.8G" fills in the focal length and aperture by itself.
 - **Random or focused.** Go fully random, or pick categories you want to practise. Each one you pick is guaranteed a card.
@@ -30,7 +30,7 @@ So I made something that knows what's in my bag. If you don't own a fast lens, y
 - **Difficulty, time of day and indoors/outdoors**, so you don't get blue hour cards at noon.
 - **No repeats for a while.** Recently used cards are held back for as long as you choose.
 - **Accepted challenges.** Accept saves only the locked cards. Your last 10 challenges are kept, and you can tick off each card once you've shot it.
-- **Idea pool counter.** It shows how many different challenges your gear allows. With a basic kit lens and 3 cards that's over 350,000.
+- **Idea pool counter.** It shows how many different challenges your gear allows. With a basic kit lens and 3 cards that's over 1.2 million.
 - **Backup.** Export and import your gear, settings and challenges as a file.
 - **Works anywhere:** phone, tablet, desktop, light and dark mode, offline.
 

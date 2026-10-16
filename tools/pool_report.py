@@ -81,6 +81,8 @@ def compatible(a, b):
     if a["axis"] == b["axis"]: return False
     if set(a.get("excludes", [])) & set(b.get("tags", [])): return False
     if set(b.get("excludes", [])) & set(a.get("tags", [])): return False
+    for key in ("time", "place"):
+        if a.get(key) and b.get(key) and not set(a[key]) & set(b[key]): return False
     return True
 
 
