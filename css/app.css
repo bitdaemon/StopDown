@@ -115,6 +115,36 @@ main.narrow { max-width: 680px; }
 .stepper button:disabled { color: var(--faint); cursor: default; }
 .stepper .value { min-width: 46px; display: inline-flex; align-items: center; justify-content: center; gap: 4px; font-weight: 650; font-variant-numeric: tabular-nums; }
 
+/* ---------- challenge options (home) ---------- */
+.options {
+  display: flex; flex-direction: column; gap: 10px;
+  padding: 12px; margin-bottom: 14px;
+  border-radius: 14px; background: var(--surface); box-shadow: var(--shadow);
+}
+.opt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.opt-select {
+  display: flex; flex-direction: column; gap: 2px; min-width: 0;
+  padding: 7px 10px; border-radius: 10px; background: var(--surface-2); cursor: pointer;
+}
+.opt-label { font-size: 12px; color: var(--muted); }
+.opt-value { display: flex; align-items: center; gap: 4px; }
+.opt-value select {
+  flex: 1; min-width: 0; border: 0; background: transparent; padding: 0;
+  font-size: 15px; font-weight: 550; color: var(--text);
+  appearance: none; -webkit-appearance: none; cursor: pointer; text-overflow: ellipsis;
+}
+.opt-value select:focus { outline: none; }
+.opt-value .chev { color: var(--faint); transform: rotate(90deg); }
+.opt-row { display: flex; align-items: center; gap: 12px; padding: 0 2px; font-size: 15px; }
+.opt-row .grow { flex: 1; }
+@media (min-width: 760px) {
+  .options { flex-direction: row; flex-wrap: wrap; align-items: center; }
+  .options .segmented { flex: 1 1 260px; width: auto; }
+  .opt-grid { flex: 2 1 340px; }
+  .opt-row { flex: 1 1 300px; }
+  .opt-row .grow { white-space: nowrap; }
+}
+
 /* ---------- note banner ---------- */
 .note {
   display: flex; gap: 10px; align-items: flex-start;

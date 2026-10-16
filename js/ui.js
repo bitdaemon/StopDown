@@ -137,7 +137,25 @@
       ' title="Saves only the locked cards as an accepted challenge">' + icon(accepted ? "circle-check" : "check") + esc(acceptLabel) + "</button>" +
       "</div></div>";
 
-    return topbar("StopDown", left, right) + '<main>' + focus + note + '<div class="cards">' + cards + "</div></main>" + bar;
+    return topbar("StopDown", left, right) + '<main>' + focus + this.optionsHTML() + note + '<div class="cards">' + cards + "</div></main>" + bar;
+  };
+
+  /** Difficulty, time of day, place and repeat window, right above the cards (same settings as in Settings). */
+  UI.prototype.optionsHTML = function () {
+    var st = this.store.settings;
+    function select(label, field, options, value) {
+      return '<label class="opt-select"><span class="opt-label">' + esc(label) + '</span><span class="opt-value"><select data-field="' + field + '" data-key="home-' + field + '">' +
+        options.map(function (o) { return '<option value="' + o.id + '"' + (o.id === value ? " selected" : "") + ">" + esc(o.label) + "</option>"; }).join("") +
+        "</select>" + icon("chevron-right", "chev") + "</span></label>";
+    }
+    return '<section class="options" aria-label="Challenge options">' +
+      '<div class="segmented" role="group" aria-label="Difficulty">' + Core.DIFFICULTIES.map(function (d) {
+        return '<button data-action="difficulty" data-id="' + d.id + '" aria-pressed="' + (st.difficulty === d.id) + '" data-key="home-diff-' + d.id + '">' + d.label + "</button>";
+      }).join("") + "</div>" +
+      '<div class="opt-grid">' + select("Time of day", "time", Core.TIMES, st.time) + select("Where", "place", Core.PLACES, st.place) + "</div>" +
+      '<div class="opt-row"><span class="grow">' + (st.cooldownDays === 0 ? "Repeats allowed" : "Avoid repeats for " + plural(st.cooldownDays, "day")) + "</span>" +
+      stepper(st.cooldownDays, "cooldown", "days", 0, 60).replace(icon("layers"), "").replace(/data-key="cooldown-/g, 'data-key="home-cooldown-') + "</div>" +
+      "</section>";
   };
 
   UI.prototype.cardHTML = function (card, index) {
@@ -157,6 +175,9 @@
       '<button class="text-btn" data-action="lock" data-index="' + index + '" aria-pressed="' + !!card.isLocked + '" aria-label="' + (card.isLocked ? "Unlock card" : "Lock card") + '" title="' + (card.isLocked ? "Unlock" : "Lock") + '" data-key="lock-' + esc(card.id) + '">' + icon(card.isLocked ? "lock" : "lock-open") + "</button>" +
       "</div></article>";
   };
+
+  /** Controls on the main screen re-deal unlocked cards when changed; the same controls in Settings don't. */
+  function isHome(el) { return (el.getAttribute("data-key") || "").indexOf("home-") === 0; }
 
   function stepper(value, name, unit, min, max) {
     min = min || 1; max = max || Core.MAX_CARDS;
@@ -448,7 +469,10 @@
         else if (name === "welcome-count") { this.welcomeCount = Math.min(Core.MAX_CARDS, Math.max(1, this.welcomeCount + delta)); this.render(); }
         break;
       }
-      case "difficulty": s.updateSettings({ difficulty: id }); break;
+      case "difficulty":
+        s.updateSettings({ difficulty: id });
+        if (isHome(el)) s.deal(); // on the main screen, show the effect straight away
+        break;
       case "welcome-random": this.welcomePicked = []; this.render(); break;
       case "welcome-toggle": {
         var i = this.welcomePicked.indexOf(id);
@@ -512,8 +536,8 @@
     var s = this.store, id = el.getAttribute("data-id"), self = this;
     switch (f) {
       case "axis": s.toggleAxis(id); break;
-      case "time": s.updateSettings({ time: el.value }); break;
-      case "place": s.updateSettings({ place: el.value }); break;
+      case "time": s.updateSettings({ time: el.value }); if (isHome(el)) s.deal(); break;
+      case "place": s.updateSettings({ place: el.value }); if (isHome(el)) s.deal(); break;
       case "crop": s.updateGear(function (g) { g.cropFactor = parseFloat(el.value); }); break;
       case "accessory": s.updateGear(function (g) {
         var i = g.accessories.indexOf(id);
