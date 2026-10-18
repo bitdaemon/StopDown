@@ -311,7 +311,8 @@
     if (!p || this.poolKey !== this.poolKeyNow()) {
       return '<div class="row"><span class="grow">Counting…</span></div>';
     }
-    var html = '<div class="row"><span class="grow">Usable constraints</span><span class="value stat">' + p.usable.toLocaleString() + "</span></div>";
+    var total = this.store.lib.constraints.length;
+    var html = '<div class="row"><span class="grow">Usable with your gear and settings</span><span class="value stat">' + p.usable.toLocaleString() + " of " + total.toLocaleString() + "</span></div>";
     if (p.combinations === null) {
       html += '<div class="row"><span class="grow">' + p.cardCount + '-card challenges</span><span class="value">Too many to count</span></div>';
     } else {
